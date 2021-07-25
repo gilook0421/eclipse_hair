@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="member">
+	
+	<!-- 아이디 중복 검사 -->
+	<select id="checkId" parameterType="String" resultType="int">
+		SELECT COUNT(*) 
+		FROM hair_MEMBER 
+		WHERE MEM_ID = #{mem_id}
+	</select>
+	
+	<!-- 이메일 중복 검사 -->
+	<select id="checkEmail" parameterType="String" resultType="int">
+		SELECT COUNT(*) 
+		FROM hair_MEMBER 
+		WHERE MEM_EMAIL = #{mem_email}
+	</select>
+	
+	<!-- 회원 가입 -->
+	<insert id="join" parameterType="java.util.HashMap">
+		INSERT INTO hair_MEMBER(
+			mem_no,
+			MEM_ID, 
+			MEM_NAME, 
+			MEM_PW, 
+			MEM_MANAGER_YN, 
+			MEM_PHONE1, 
+			MEM_EMAIL, 
+			MEM_EMAIL_APPROVAL_KEY,
+			MEM_EMAIL_APPROVAL_STATUS,
+			MEM_REG_DATE, 
+			MEM_UPD_DATE
+			)   
+		VALUES(
+			'1'
+			, #{mem_id}
+			, #{mem_name}
+			, #{mem_pw}
+			, 'T'
+			, #{mem_phone1}
+			, #{mem_email}
+			, #{mem_email_approval_key}
+			, #{mem_email_approval_status}
+			, now()
+			, now()
+			)
+	</insert> 
+	
+	<!-- 이메일 인증 -->
+	<update id="approvalMember" parameterType="java.util.HashMap">
+		UPDATE hair_MEMBER 
+		SET MEM_email_APPROVAL_STATUS = 'T' 
+		WHERE MEM_EMAIL = #{mem_email} 
+		AND MEM_email_APPROVAL_KEY = #{mem_email_approval_key}
+	</update>
+
+	<!-- 로그인 -->
+	<!-- 세션에 담아야하니 모든필드를 조회할것. -->
+	<select id="login" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT mem_no
+				, mem_id
+				, mem_name 
+				, mem_manager_yn
+				, mem_phone1 
+				, mem_email
+				, mem_email_approval_status
+				, mem_email_approval_key
+				, mem_reg_date
+				, mem_upd_date  
+		FROM hair_MEMBER 
+		WHERE MEM_ID = #{mem_id}
+		AND MEM_PW = #{mem_pw}
+		AND MEM_email_APPROVAL_STATUS = 'T'
+	</select>
+	
+	<!-- 로그인 접속일자 수정 -->
+	<update id="updateLog" parameterType="String">
+		UPDATE hair_MEMBER 
+		SET MEM_UPD_DATE = now() 
+		WHERE MEM_ID = #{mem_id}
+	</update>
+
+	<!-- 아이디 찾기 -->
+	<select id="findId" parameterType="String" resultType="String">
+		select mem_id
+		from hair_member
+		where MEM_email = #{mem_email}
+	</select> 
+	
+	<!-- 비밀번호 찾기 -->
+	<select id="findPw" parameterType="java.util.HashMap" resultType="String">
+		select mem_id
+		from hair_member
+		where MEM_id= #{mem_id}
+		and MEM_email = #{mem_email}
+	</select>
+	
+	<!-- 비밀번호 변경 -->
+	<update id="updatePw" parameterType="java.util.HashMap">
+		update hair_member
+		set MEM_pw = #{mem_pw}
+		where MEM_id = #{mem_id}
+		and MEM_email = #{mem_email}
+	</update>
+	
+	<!-- 회원탈퇴 -->
+	<delete id="memberLeave" parameterType="java.util.HashMap">
+		delete from hair_member
+		where MEM_id = #{mem_id}
+		and MEM_pw = #{mem_pw}
+	</delete>
+	
+	<!-- 회원리스트 -->
+	<select id="memberList" resultType="java.util.HashMap">
+		select MEM_ID
+				, MEM_PW
+				, MEM_EMAIL
+				, MEM_email_APPROVAL_STATUS
+				, MEM_email_APPROVAL_KEY
+				, MEM_REG_DATE
+				, MEM_UPD_DATE  
+		FROM hair_MEMBER
+	</select>
+</mapper>

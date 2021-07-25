@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="product">
+
+	<!-- 상품리스트 -->
+	<select id="list" parameterType="requestMap" resultType="java.util.HashMap">
+		select PROD_NO,
+				PROD_ID,
+				PROD_CODE,
+				PROD_NAME,
+				PROD_PRICE,
+				PROD_USE_YN,
+				PROD_REG_DATE,
+				PROD_UPD_DATE
+		FROM hair_prod
+        where PROD_ID like '%'||#{mem_id}||'%'
+        order by PROD_upd_date desc, PROD_no desc
+        limit 0,10
+	</select>
+	
+	<!-- 상품등록 -->
+	<insert id="write" parameterType="java.util.HashMap">
+		insert into hair_prod
+		(prod_no
+		, prod_id
+		, prod_code
+		, prod_name
+		, prod_price
+		, prod_use_yn
+		, prod_reg_date
+		, prod_upd_date)
+		value
+		( 
+		(select a.prod_no
+        from(select IFNULL(MAX(prod_no) + 1, 1) prod_no
+        from hair_prod) a)
+        , #{prod_id}
+		, 'P0001'
+		, #{prod_name}
+		, #{prod_price}
+		, #{prod_use_yn}
+		, now()
+		, now())
+	</insert>
+</mapper>
+

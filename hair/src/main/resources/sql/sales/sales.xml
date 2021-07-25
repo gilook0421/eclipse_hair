@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="sales">
+
+	<!-- 손님검색 -->
+	<select id="sales_selectOne" parameterType="java.util.HashMap" resultType="java.util.Map">
+		select a.cust_no,
+				a.cust_id,
+				a.cust_name,
+				a.cust_sex,
+				a.cust_phone1,
+				a.cust_phone2,
+				a.cust_REG_DATE,
+				a.cust_UPD_DATE,
+                b.sales_point_plus,
+                b.sales_point_minus,
+                b.sales_point_tot
+		FROM hair_customer a
+        left outer join hair_sales b on a.cust_id = b.sales_id and a.cust_no = b.sales_cust_no
+        where a.cust_id like '%'||#{cust_id}||'%'
+        and a.cust_name like concat('%', #{cust_name}, '%')
+        and a.cust_phone1 like concat('%', #{cust_phone1}, '%')
+        group by a.cust_no
+        order by a.cust_upd_date desc, a.cust_no desc
+	</select>
+	
+	<!-- 매출리스트 -->
+	<select id="sales_list" parameterType="java.util.HashMap" resultType="java.util.Map">
+		select sales_no,
+				sales_id,
+				sales_cust_no,
+				sales_staff_no,
+				sales_prod_name,
+				sales_prod_price,
+				sales_prod_price_tot,
+				sales_point_plus,
+				sales_point_minus,
+				sales_point_tot,
+				sales_reg_date,
+				sales_upd_date
+		FROM hair_sales a
+        inner join member b on a.sales_id = b.mem_id
+        where a.sales_cust_no like concat('%', #{sales_cust_no}, '%') 
+	</select>
+	
+	<!-- 매출등록 -->
+	<insert id="sales_write" parameterType="java.util.HashMap">
+		insert into hair_sales
+		(sales_id
+		, sales_cust_no
+		, sales_staff_no
+		, sales_prod_name
+		, sales_prod_price
+		, sales_prod_price_tot
+		, sales_point_plus
+		, sales_point_minus
+		, sales_point_tot
+		, sales_filler1
+		, sales_reg_date
+		, sales_upd_date)
+		values
+		( #{sales_id}
+		, #{sales_cust_no}
+		, #{sales_staff_no}
+		, #{sales_prod_name}
+		, #{sales_prod_price}
+		, #{sales_prod_price_tot}
+		, #{sales_point_plus}
+		, #{sales_point_minus}
+		, #{sales_point_tot}
+		, #{sales_filler1}
+		, now()
+		, now())
+	</insert>
+	
+	<!-- 
+	<foreach collection="sUser_type" item="type"  open="(" close=")" separator="or">
+	</foreach>
+	
+	****만약 parameter type 이 hashmap이 아닌 list일 경우 collection 이름은 꼭 list 이어야 하다.
+	collection = 전달받은 인자. List나 Array 형태만 가능
+	item = 전달받은 인자값을 alias 명으로 대체
+	open = 해당 구문이 시작될때 삽입할 문자열
+	close = 해당 구문이 종료될때 삽입할 문자열
+	separator = 반복 되는 사이에 출력할 문자열
+	index=반복되는 구문 번호이다. 0부터 순차적으로 증가
+	 -->
+	<insert id="sales_foreachIns" parameterType="java.util.HashMap">
+		insert into hair_sales
+		(sales_id
+		, sales_cust_no
+		, sales_staff_no
+		, sales_prod_name
+		, sales_prod_price
+		, sales_prod_price_tot
+		, sales_reg_date
+		, sales_upd_date)
+		values
+		<foreach separator="," collection="list">
+		( #{sales_id}
+		, #{sales_cust_no}
+		, #{sales_staff_no}
+		, #{sales_prod_name}
+		, #{sales_prod_price}
+		, #{sales_prod_price_tot}
+		, now()
+		, now())
+		</foreach>
+	</insert>
+	
+</mapper>
+
+

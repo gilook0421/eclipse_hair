@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+<!-- 
+	<definition name="biz-template" template="/WEB-INF/tiles/layouts/biz_template.jsp">
+		<put-attribute name="title" value="Mokaboard 메인페이지" />
+		<put-attribute name="header" value="/WEB-INF/tiles/components/biz/header.jsp" />
+		<put-attribute name="left-side" value="/WEB-INF/tiles/components/biz/left_side.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/tiles/components/biz/footer.jsp" />
+	</definition>
+	
+	<definition name="biz/*" extends="biz-template">
+		<put-attribute name="content" value="/WEB-INF/views/{1}.jsp" />
+	</definition>
+	
+	<definition name="biz/*/*" extends="biz-template">
+		<put-attribute name="content" value="/WEB-INF/views/{1}/{2}.jsp" />
+	</definition>
+	
+	
+	<definition name="sample-template" template="/WEB-INF/tiles/layouts/biz_template.jsp">
+		<put-attribute name="title" value="sample 메인페이지" />
+		<put-attribute name="header" value="/WEB-INF/tiles/components/biz/header.jsp" />
+		<put-attribute name="left-side" value="/WEB-INF/tiles/components/sample/left_side.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/tiles/components/biz/footer.jsp" />
+	</definition>
+	
+	<definition name="sample-t/*" extends="sample-template">
+		<put-attribute name="content" value="/WEB-INF/views/sample/{1}.jsp" cascade="true" />
+	</definition>
+	
+	<definition name="sample-t/*/*" extends="sample-template">
+		<put-attribute name="content" value="/WEB-INF/views/sample/{1}/{2}.jsp" cascade="true" />
+	</definition>
+ -->
+
+	
+	<definition name="home" template="/WEB-INF/tiles/layouts/base_home_temp.jsp">
+		<put-attribute name="title" value="GWGroup home" />
+		<put-attribute name="header" value="/WEB-INF/tiles/base/home/headerView.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/tiles/base/home/menuView.jsp" />
+		<put-attribute name="comm" value="/WEB-INF/tiles/base/common/menuCommView.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/tiles/base/home/footerView.jsp" />
+	</definition>
+	
+	<definition name="*.home" extends="home">
+		<put-attribute name="body" value="/WEB-INF/views/{1}.jsp" cascade="true" />
+	</definition>
+	
+	
+	
+
+	<definition name="css" template="/WEB-INF/tiles/layouts/base_css_temp.jsp">
+		<put-attribute name="title" value="GWGroup css" />
+		<put-attribute name="header" value="/WEB-INF/tiles/base/css/headerView.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/tiles/base/css/menuView.jsp" />
+		<put-attribute name="comm" value="/WEB-INF/tiles/base/common/menuCommView.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/tiles/base/css/footerView.jsp" />
+	</definition>
+	
+	<definition name="*.css" extends="css">
+		<put-attribute name="body" value="/WEB-INF/views/{1}.jsp" cascade="true" />
+	</definition>
+		
+
+	
+	<definition name="biz-menubar" template="/WEB-INF/tiles/layouts/base_menubar_temp.jsp">
+		<put-attribute name="title" value="GWGroup" />
+		<put-attribute name="header" value="/WEB-INF/tiles/base/menubar/headerView.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/tiles/base/menubar/menuView.jsp" />
+		<put-attribute name="comm" value="/WEB-INF/tiles/base/common/menuCommView.jsp" />
+		<put-attribute name="left-side" value="/WEB-INF/tiles/base/menubar/sideView.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/tiles/base/menubar/footerView.jsp" />
+	</definition>
+	
+	<definition name="*/*" extends="biz-menubar">
+		<put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" cascade="true" />
+	</definition>
+	
+	
+	
+	<definition name="biz-menuside" template="/WEB-INF/tiles/layouts/base_menuside_temp.jsp">
+		<put-attribute name="title" value="GWGroup" />
+		<put-attribute name="header" value="/WEB-INF/tiles/base/menuside/headerView.jsp" />
+		<put-attribute name="left-side" value="/WEB-INF/tiles/base/menuside/sideView.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/tiles/base/menuside/footerView.jsp" />
+	</definition>
+	
+	<definition name="*/*.side" extends="biz-menuside">
+		<put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" cascade="true" />
+	</definition>
+	
+
+</tiles-definitions>

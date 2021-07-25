@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="staff">
+
+	<!-- staff리스트 -->
+	<select id="list" parameterType="String" resultType="java.util.HashMap">
+		select staff_no,
+				staff_id,
+				staff_name,
+				staff_phone1,
+				staff_memo,
+				staff_useyn,
+				staff_reg_date,
+				staff_upd_date
+		FROM hair_staff 
+		where staff_id = #{busi_no}
+	</select>
+	
+	<!-- staff등록 -->
+	<insert id="write" parameterType="java.util.HashMap">
+		insert into hair_staff
+		( 
+		staff_id
+		, staff_busi
+		, staff_name
+		, staff_phone1
+		, staff_memo
+		, staff_useyn
+		, staff_reg_date
+		, staff_upd_date
+		)
+		values
+		( 
+		#{staff_id}
+		, #{staff_busi}
+		, #{staff_name}
+		, #{staff_phone1}
+		, #{staff_memo}
+		, #{staff_useyn}
+		, now()
+		, now()
+		)
+	</insert>
+</mapper>
+

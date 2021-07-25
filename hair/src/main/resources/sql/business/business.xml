@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="business">
+
+	<!-- 사업장리스트 -->
+	<select id="list" resultType="java.util.HashMap">
+		select BUSI_NO,
+				BUSI_ID,
+				BUSI_NAME,
+				BUSI_PHONE1,
+				BUSI_PHONE2,
+				BUSI_PHONE3,
+				BUSI_REG_DATE,
+				BUSI_UPD_DATE
+		FROM hair_business 
+        where busi_id like '%'||#{mem_id}||'%'
+	</select>
+	
+	<!-- 사업장등록 -->
+	<insert id="write" parameterType="java.util.HashMap">
+		insert into hair_business
+		(busi_id
+		, busi_name
+		, busi_phone1
+		, busi_phone2
+		, busi_phone3
+		, busi_reg_date
+		, busi_upd_date)
+		value
+		( #{busi_id}
+		, #{busi_name}
+		, #{busi_phone1}
+		, #{busi_phone2}
+		, #{busi_phone3}
+		, now()
+		, now())
+	</insert>
+	
+	<!-- 사업장등록 -->
+	<update id="update" parameterType="java.util.HashMap">
+		update hair_business
+		set busi_name = #{busi_name}
+		, busi_phone1 = #{busi_phone1}
+		, busi_upd_date = now()
+		where busi_id = #{busi_id}
+	</update>
+	
+	<!-- 사업장등록 -->
+	<update id="merge" parameterType="java.util.HashMap">
+		update hair_business
+		set busi_name = #{busi_name}
+		, busi_phone1 = #{busi_phone1}
+		, busi_upd_date = now()
+		where busi_id = #{busi_id}
+	</update>
+	
+</mapper>
+

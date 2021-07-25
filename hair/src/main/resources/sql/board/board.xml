@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board">
+	
+	<!-- 게시판글 작성 -->
+	<insert id="boardWrite" parameterType="java.util.HashMap">
+		insert into hair_board
+		(
+		bod_no
+		, BOD_ID
+		, BOD_SUBJECT
+		, BOD_CONTENT
+		, BOD_REG_DATE
+		, BOD_UPD_DATE
+		)
+		 select (select max(ifnull(bod_no,0))+1
+	    		   from hair_BOARD) 
+		, #{bod_id}
+		, #{bod_subject}
+		, #{bod_content}
+		, now()
+		, now()
+		from dual
+	</insert>
+	
+	<!-- 게시판 리스트 -->
+	<select id="boardList" resultType="java.util.HashMap">
+		select BOD_NO,
+			    BOD_ID,
+			    BOD_SUBJECT,
+			    BOD_CONTENT,
+			    BOD_READ_CNT,
+			    BOD_REC_CNT,
+			    BOD_COMT_CNT
+			    BOD_REG_DATE,
+			    BOD_UPD_DATE
+	    from hair_BOARD
+	    order by bod_upd_date desc, bod_no desc
+	</select>
+</mapper>

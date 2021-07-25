@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+
+	<!-- dataSource (default)>
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://127.0.0.1:3306/hair?useSSL=false"/>
+		<property name="username" value="root"/>
+		<property name="password" value="mysql"/> 
+	</bean-->
+	
+	<!-- dataSource (log4jdbc spy)-->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" />
+		<property name="url" value="jdbc:log4jdbc:mysql://127.0.0.1:3306/hair?useSSL=false"/>
+		<property name="username" value="root"/>
+		<property name="password" value="mysql"/> 
+	</bean>
+	
+	<!-- 트랜잭션관리자 
+	<bean id="transactionManager" class="org.springframework.jdbc.data">
+		<property name=""></property>
+	</bean>-->
+			
+	<!-- mybatis -->
+	<!-- 
+	- property name에보면 configLocation과 mapperLocation이 있는데 
+	configLocation은 mybatis-cofing.xml 파일의 경로고
+	mapperLocation은  mapper의 경로
+	그러므로 본인이 설정한 경로에 맞게 맞춰주면 될 것이다.
+	아래는 src/main/resources 에 mybatis-config.xml을 넣어줌
+	 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 모델클래스가 있는 패키지, 이를 통행서 mapperXML에서 ModelClass들을 resultType으로 쓸수 있다. 
+		<property name="typeAliasesPackage" value="kgw.spring.mybatis.model"></property>-->
+		<property name="dataSource" ref="dataSource"></property>
+		<!-- mybatis설정파일 -->
+		<property name="configLocation" value="classpath:mybatis-config.xml"></property>
+		<!-- mapperXML파일 경로 -->
+		<property name="mapperLocations" >
+			<array>
+				<value>classpath*:/sql/**/*.xml</value>
+			</array>
+		</property>
+	</bean>
+	
+	<!--
+	* SqlSessionTemplate  설정
+ 		- DAO에서 DB의 연결의 맺고 작업이 완료된 후 연결을 하는 작업을 SqlSessionTemplate 클래스를 이용하여 처리
+  		SqlSessionTemplate는 mybatis의 SqlSession인터페이스로 구현한 클래스로 기본적인 트랜잭션 관리나 쓰레드 처리의 안전성보장과 DB연결과 종료를 책임짐
+	-->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
+		<constructor-arg name="sqlSessionFactory" index="0" ref="sqlSessionFactory"></constructor-arg>
+	</bean>
+	
+</beans>
+
