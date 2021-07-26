@@ -88,11 +88,11 @@ public class LoggingInterceptor extends HandlerInterceptorAdapter{
 			//logger.debug("view.getStatus() : " + view.getStatus());
 			logger.debug("view.getView() : " + view.getView());
 		}
-	    
+		
 	    if (logger.isDebugEnabled()) { 
 	    	logger.debug("====================================== END ======================================\n"); 
 	    }
-
+	    
 	}
 
 	@Override

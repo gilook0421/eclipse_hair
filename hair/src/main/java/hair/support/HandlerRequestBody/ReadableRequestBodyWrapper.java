@@ -22,9 +22,30 @@ public class ReadableRequestBodyWrapper extends HttpServletRequestWrapper {
 		requestBody = new String(bytes);
 	}
 
+	@Override
+	public ServletInputStream getInputStream() throws IOException {
+		final ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+		return  new ServletImpl(bis);
+	}
 
 	public String getRequestBody() {
 		return this.requestBody;
 	}
 
+	class ServletImpl extends ServletInputStream{
+		private InputStream is;
+		public ServletImpl(InputStream bis){
+			is = bis;
+		}
+
+		@Override
+		public int read() throws IOException {
+			return is.read();
+		}
+
+		@Override
+		public int read(byte[] b) throws IOException {
+			return is.read(b);
+		}
+	}
 }

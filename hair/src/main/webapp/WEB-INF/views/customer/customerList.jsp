@@ -103,7 +103,6 @@ function customerWriteCallBack(result){
 		<div class="w3-container">
 			<p class="w3-left">
 				<h3>손님관리</h3>
-			</p>
 			<hr>
 		</div>
 	</div>

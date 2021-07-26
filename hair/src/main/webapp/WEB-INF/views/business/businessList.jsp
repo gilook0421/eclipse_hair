@@ -209,7 +209,6 @@ function businessWriteCallBack(result){
 		<div class="w3-container">
 			<p class="w3-left">
 				<h3>사업장관리</h3>
-			</p>
 			<hr>
 		</div>
 	</div>

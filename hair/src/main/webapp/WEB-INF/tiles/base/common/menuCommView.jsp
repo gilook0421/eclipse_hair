@@ -214,7 +214,7 @@
 	
 	    <div class="w3-center"><br>
 	      <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-xlarge w3-hover-red w3-display-topright" title="Close Modal">&times;</span>
-	      <img id="loginViewImg" src="./resources/img/login_avatar4.png" alt="Avatar" style="width:30%" class="w3-circle w3-margin-top">
+	      <img id="loginViewImg" src="../resources/img/login_avatar4.png" alt="Avatar" style="width:30%" class="w3-circle w3-margin-top">
 	    </div>
 	
 	    <div class="w3-container" >

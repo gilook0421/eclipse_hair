@@ -1,6 +1,7 @@
 package hair.product.controller;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -15,12 +16,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import hair.product.service.ProductService;
 import hair.support.HandlerMap.RequestMap;
+import hair.support.paging.DefaultPaginationManager;
+import hair.support.paging.PaginationInfo;
+import hair.support.paging.PaginationManager;
+import hair.support.paging.PaginationRenderer;
 
 //@RestController
 @Controller
 @RequestMapping("/product")
 public class ProductController {
 
+	@SuppressWarnings("unused")
 	private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 	
 	@Resource
@@ -38,8 +44,30 @@ public class ProductController {
 	@RequestMapping(value="/productList.api", method=RequestMethod.POST)
 	public HashMap<String, Object> productList(@RequestBody RequestMap param, HttpServletRequest request) throws Exception{
 
+		int pageIndex = param.get("pageIndex")==null?1:(int) param.get("pageIndex");
+		int mntViewCnt = param.get("mntViewCnt")==null?10:(int) param.get("mntViewCnt");
+		int pageSize = param.get("pageSize")==null?5:(int) param.get("pageSize");
+		int listCnt = service.productListCnt(param);
+		
+		// pageRenderer
+		PaginationManager pageManager = new DefaultPaginationManager();
+		PaginationRenderer pageRenderger = pageManager.getRendererType("image");
+		PaginationInfo pageInfo = new PaginationInfo();
+		pageInfo.setCurrentPageNo(pageIndex);
+		pageInfo.setRecordCountPerPage(mntViewCnt);
+		pageInfo.setPageSize(pageSize);
+		pageInfo.setTotalRecordCount(listCnt);
+		String pageContents = pageRenderger.renderPagination(pageInfo, "pageJs.pageMove");
+		// --pageRenderer
+		
+		param.put("pageIndex", (pageIndex -1)*10);
+		param.put("mntViewCnt", mntViewCnt);
+		param.put("pageSize", pageSize);
+		List<HashMap<String, Object>> data = service.productList(param);
+		
 		HashMap<String, Object> view = new HashMap<>();
-		view.put("data", service.productList(param));
+		view.put("data", data);
+		view.put("paging", pageContents);
 		
 		return view;
 	}
@@ -48,11 +76,20 @@ public class ProductController {
 	// 상품 글쓰기
 	@ResponseBody
 	@RequestMapping(value="/productWrite.api", method=RequestMethod.POST)
-	public HashMap<String, Object> ProductWrite(@RequestBody HashMap<String, Object> param, HttpServletRequest request) throws Exception{
+	public HashMap<String, Object> ProductWrite(@RequestBody RequestMap param, HttpServletRequest request) throws Exception{
 
-		if(logger.isDebugEnabled()) logger.debug("XXXXXXXXXXXXXXXXXXXXXXXXXXX 0" + param.toString());
+		String prod_name = param.get("prod_name")==null?"":(String) param.get("prod_name");
+		String prod_price = param.get("prod_name")==null?"":(String) param.get("prod_price");
+		String prod_use_yn = param.get("prod_name")==null?"":(String) param.get("prod_use_yn");
+		if("".equals(prod_name) || "".equals(prod_price) || "".equals(prod_use_yn)) {
+			throw new RuntimeException("파라미터 null 오류."); 
+		}
+		//, #{prod_name}
+		//, #{prod_price}
+		//, #{prod_use_yn}
+		
 		HashMap<String, Object> view = new HashMap<>();
-		view = service.write(param, request);
+		view = service.write(param);
 		
 		return view;
 	}

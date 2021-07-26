@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/main")
 public class DashController {
 
+	@SuppressWarnings("unused")
 	private static final Logger logger = LoggerFactory.getLogger(DashController.class);
 	
 	

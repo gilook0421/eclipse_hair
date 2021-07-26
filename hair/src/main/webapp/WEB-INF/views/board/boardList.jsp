@@ -8,14 +8,14 @@ $(function(){
 		location.href='../board/writeView.api';
 	})
 	
-	//ssss
+	//
 	$("#boardWriteBtn").click(function(){
 	
 		var inParam = $("#boradWriteForm").serializeArray();
 		var outParam = {};
 		gl_ajax("./boardWrite.api", inParam, function(outParam) {boardWriteCallBack(outParam);} );
 		
-	}); 
+	});
 	
 	// 글쓰기 토글
 	$("#goWrite").on("click", function(){

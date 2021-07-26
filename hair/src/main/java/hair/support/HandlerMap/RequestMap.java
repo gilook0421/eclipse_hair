@@ -76,16 +76,18 @@ public class RequestMap extends HashMap<String, Object>{
             if( entry.getValue() instanceof String ) {
                 String value = (String)entry.getValue();
                 sb.append(key + "=" + value + ","); 
+                if(logger.isInfoEnabled()) logger.info("[RequestMap] Key : " + key + ", Value : " + value);
             }
             else if( entry.getValue() instanceof Integer ) {
                 int value = (int)entry.getValue();
                 sb.append(key + "=" + value + ","); 
+                if(logger.isInfoEnabled()) logger.info("[RequestMap] Key : " + key + ", Value : " + value);
             }
             else {
                 Object value = (Object)entry.getValue();
                 sb.append(key + "=" + value + ","); 
+                if(logger.isInfoEnabled()) logger.info("[RequestMap] Key : " + key + ", Value : " + value);
             }
-            //if(logger.isInfoEnabled()) logger.info("[RequestMap] Key : " + key + ", Value : " + value.toString());
         }
 
         if(logger.isInfoEnabled()) logger.info(sb.toString());

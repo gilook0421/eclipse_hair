@@ -36,7 +36,7 @@ $(document).ready(function(){
 </script>
 
 	<div id = "Progress_Loading"><!-- 로딩바 -->
-		<img src="./resources/gif/progressBar.gif"/>
+		<img src="../resources/gif/progressBar.gif"/>
 	</div>
 
 	<!-- 슬라이드쇼 시작 -->
@@ -58,11 +58,11 @@ $(document).ready(function(){
 	    	<div class="carousel-inner">
 	
 	      		<div class="item active">
-	        		<img src="./resources/img/mainSlide1.png" alt="mainSlide1" style="width:100%;height:600px;">
+	        		<img src="../resources/img/mainSlide1.png" alt="mainSlide1" style="width:100%;height:600px;">
 	      		</div>
 	  
 	      		<div class="item">
-	        		<img src="./resources/img/mainSlide2.png" alt="mainSlide2" style="width:100%;height:600px;">
+	        		<img src="../resources/img/mainSlide2.png" alt="mainSlide2" style="width:100%;height:600px;">
 	      		</div>
 	      
 	      		<div class="item">
@@ -70,15 +70,15 @@ $(document).ready(function(){
 	      		</div>
 	      
 	      		<div class="item">
-	        		<img src="./resources/img/mainSlide4.png" alt="mainSlide4" style="width:100%;height:600px;">
+	        		<img src="../resources/img/mainSlide4.png" alt="mainSlide4" style="width:100%;height:600px;">
 	      		</div>
 	      
 	      		<div class="item">
-	        		<img src="./resources/img/mainSlide5.png" alt="mainSlide5" style="width:100%;height:600px;">
+	        		<img src="../resources/img/mainSlide5.png" alt="mainSlide5" style="width:100%;height:600px;">
 	      		</div>
 	      
 	      		<div class="item">
-	        		<img src="./resources/img/mainSlide6.png" alt="mainSlide6" style="width:100%;height:600px;">
+	        		<img src="../resources/img/mainSlide6.png" alt="mainSlide6" style="width:100%;height:600px;">
 	      		</div>
 	      
 	    	</div>

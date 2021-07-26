@@ -5,45 +5,76 @@
 
 <mapper namespace="product">
 
+	<sql id="COMMON_PAGING_HEADER">
+		select R1.* FROM(	
+	</sql>
+	
+	<sql id="COMMON_PAGING_TAIL">
+		) R1
+		LIMIT #{mntViewCnt, jdbcType=INTEGER} OFFSET #{pageIndex, jdbcType=INTEGER} 
+	</sql>
+
 	<!-- 상품리스트 -->
 	<select id="list" parameterType="requestMap" resultType="java.util.HashMap">
-		select PROD_NO,
-				PROD_ID,
+		<include refid="COMMON_PAGING_HEADER"/>
+		select /*+ product.list */
+				PROD_YMD,
+				PROD_NO,
+				MEM_ID,
 				PROD_CODE,
 				PROD_NAME,
 				PROD_PRICE,
 				PROD_USE_YN,
+				PROD_ETC,
 				PROD_REG_DATE,
 				PROD_UPD_DATE
-		FROM hair_prod
-        where PROD_ID like '%'||#{mem_id}||'%'
+		FROM hair_product
+        where MEM_ID like '%'||#{mem_id}||'%'
         order by PROD_upd_date desc, PROD_no desc
-        limit 0,10
+		<include refid="COMMON_PAGING_TAIL"/>
+	</select>
+	
+	<select id="listCnt" parameterType="requestMap" resultType="java.lang.Integer">
+		select /*+ product.listCnt */
+				count(*) cnt
+		FROM hair_product
+        where MEM_ID like '%'||#{mem_id}||'%'
 	</select>
 	
 	<!-- 상품등록 -->
-	<insert id="write" parameterType="java.util.HashMap">
-		insert into hair_prod
-		(prod_no
-		, prod_id
-		, prod_code
-		, prod_name
-		, prod_price
-		, prod_use_yn
-		, prod_reg_date
-		, prod_upd_date)
+	<insert id="write" parameterType="requestMap">
+		insert into /*+ product.write */
+		hair_product
+		(
+			PROD_YMD
+			,prod_no
+			, MEM_ID
+			, prod_code
+			, prod_name
+			, prod_price
+			, prod_use_yn
+			, PROD_ETC
+			, prod_reg_date
+			, prod_upd_date
+		)
 		value
 		( 
-		(select a.prod_no
-        from(select IFNULL(MAX(prod_no) + 1, 1) prod_no
-        from hair_prod) a)
-        , #{prod_id}
-		, 'P0001'
-		, #{prod_name}
-		, #{prod_price}
-		, #{prod_use_yn}
-		, now()
-		, now())
+			DATE_FORMAT(sysdate(), '%Y%m%d')
+			,(select 
+					a.prod_no
+	        	from(select 
+	        				IFNULL(MAX(prod_no) + 1, 1) prod_no
+	        			from hair_product) a
+        	)
+	        , #{mem_id}
+			, 'P0001'
+			, #{prod_name}
+			, #{prod_price}
+			, #{prod_use_yn}
+			, #{prod_etc}
+			, now()
+			, now()
+		)
 	</insert>
 </mapper>
 

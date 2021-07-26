@@ -29,13 +29,13 @@ function gl_ajax(url, inParam, callback){
 			console.log("[ajax fail.] : " + JSON.stringify(request) );
 			console.log("[ajax fail.] : " + JSON.stringify(status) );
 			console.log("[ajax fail.] : " + JSON.stringify(error) );
-			//alert("[ajax fail.]code : " + request.status + "\nerror : " + error );
+			alert("[ajax fail.]code : " + request.status + "\nerror : " + error );
 			//return false;
 			if ( status == "error" && request.status == "500" ){
-				location.href = "/error/500error.jsp";
+				//location.href = "/error/500error.jsp";
 			}
 			else if ( status == "error" && request.status == "404" ){
-				location.href = "/error/404error.jsp";
+				//location.href = "/error/404error.jsp";
 			}
 		}
 		

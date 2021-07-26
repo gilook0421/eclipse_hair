@@ -305,7 +305,6 @@ function salesWriteCallBack(result){
 		<div class="w3-container">
 			<p class="w3-left">
 				<h3>매출관리</h3>
-			</p>
 			<hr>
 		</div>
 	</div>

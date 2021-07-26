@@ -16,15 +16,21 @@ public class ProductDAO {
 	@Inject
 	SqlSession sqlSession;
 	
-	// 상품등록
-	public int write(HashMap<String, Object> VO) throws Exception{
-		return sqlSession.insert("product.write", VO);
+	// 등록
+	public int write(RequestMap req) throws Exception{
+		return sqlSession.insert("product.write", req);
 	}
 	
-	// 상품리스트
+	// 리스트
 	public List<HashMap<String, Object>> productList(RequestMap req) throws Exception{
 		
 		return sqlSession.selectList("product.list", req);
+	}
+
+	// 리스트건수
+	public int productListCnt(RequestMap req) throws Exception{
+		
+		return sqlSession.selectOne("product.listCnt", req);
 	}
 	
 }
