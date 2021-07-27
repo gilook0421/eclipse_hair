@@ -5,6 +5,7 @@
 
 <mapper namespace="product">
 
+	<!-- 페이징 -->
 	<sql id="COMMON_PAGING_HEADER">
 		select R1.* FROM(	
 	</sql>
@@ -13,8 +14,9 @@
 		) R1
 		LIMIT #{mntViewCnt, jdbcType=INTEGER} OFFSET #{pageIndex, jdbcType=INTEGER} 
 	</sql>
+	<!-- //페이징 -->
 
-	<!-- 상품리스트 -->
+	<!-- 리스트 -->
 	<select id="list" parameterType="requestMap" resultType="java.util.HashMap">
 		<include refid="COMMON_PAGING_HEADER"/>
 		select /*+ product.list */
@@ -33,15 +35,18 @@
         order by PROD_upd_date desc, PROD_no desc
 		<include refid="COMMON_PAGING_TAIL"/>
 	</select>
+	<!-- //리스트 -->
 	
+	<!-- 리스트 건수 -->
 	<select id="listCnt" parameterType="requestMap" resultType="java.lang.Integer">
 		select /*+ product.listCnt */
 				count(*) cnt
 		FROM hair_product
         where MEM_ID like '%'||#{mem_id}||'%'
 	</select>
+	<!-- //리스트 건수 -->
 	
-	<!-- 상품등록 -->
+	<!-- 등록 -->
 	<insert id="write" parameterType="requestMap">
 		insert into /*+ product.write */
 		hair_product
@@ -76,5 +81,32 @@
 			, now()
 		)
 	</insert>
+	<!-- //등록 -->
+	
+	<!-- 변경 -->
+	<update id="upd" parameterType="requestMap">
+		update /*+ product.upd */
+		from hair_product
+		set prod_name = #{prod_name}
+			, prod_price = #{prod_price}
+			, prod_use_yn = #{prod_use_yn}
+			, prod_etc = #{prod_etc}
+			, prod_upd_date = now()
+		where prod_ymd = #prod_ymd}
+		and prod_no = #{prod_no}
+		and mem_id = #{mem_id}
+	</update>
+	<!-- //변경 -->
+		
+	<!-- 삭제 -->
+	<update id="del" parameterType="requestMap">
+		delete /*+ product.del */
+		from hair_product
+		where prod_ymd = #prod_ymd}
+		and prod_no = #{prod_no}
+		and mem_id = #{mem_id}
+	</update>
+	<!-- //삭제 -->
+	
 </mapper>
 

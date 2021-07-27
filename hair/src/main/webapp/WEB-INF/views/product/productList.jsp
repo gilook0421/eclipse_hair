@@ -43,11 +43,10 @@ input.formInput {
 			,pageSize:5 // 표시할 페이징 갯수
 			,init:function(){
 				
+				// 등록영역
 				$("#btnReg").on("click", function(){
-					$("#regArea").toggle("slow");	
-				})
-				$("#updArea").on("click", function(){
-					$("#updArea").toggle("slow");	
+					$("#regArea").toggle("slow");
+					$("#updArea").toggle("slow");		
 				})
 				
 				// 조회
@@ -58,122 +57,25 @@ input.formInput {
 				
 				// 등록
 				$("#btnWrite").click(function(){
-					var prod = $("#reg_prod_name").val();
-					var price = $("#reg_prod_price").val();
-					var use = $("#reg_use_yn").val();
-					var etc = $("#reg_use_etc").val();
-					
-					// 상품명
-					if (prod.length < 1) {
-						alert("상품명은 1자 이상으로 설정해야 합니다.");
-						$("#reg_prod_name").focus();
-						return false;
-					}
-					// 상품명
-					if($.trim(prod) !== prod){
-						alert("상품명은 공백 입력이 불가능합니다.");
-						return false;
-					}
-					
-					// 가격
-					if (price.length < 3) {
-						alert("가격은 천원 이상으로 설정해야 합니다.");
-						$("#reg_prod_price").focus();
-						return false;
-					}
-					// 가격
-					if($.trim(price) !== price){
-						alert("가격은 공백입력이 불가능합니다.");
-						return false;
-					}
-					
-					//var inParam = $("#joinForm").serializeArray();
-					var inParam = {
-						prod_name:prod,
-						prod_price:price,
-						prod_use_yn:use,
-						prod_etc:etc
-					};
-					var outParam = {};
-					gl_ajax("./productWrite.api"
-							, inParam
-							, function(outParam) {
-								console.log("ok");
-								location.href = "./productListView.api";
-							} 
-					);
-					
+					pageJs.dataWrite();
 				});
 				// --등록
 				
 				// 변경
 				$("#btnUpdate").click(function(){
-					var prod = $("#upd_prod_name").val();
-					var price = $("#upd_prod_price").val();
-					var use = $("#upd_use_yn").val();
-					var etc = $("#upd_use_etc").val();
-					
-					
-					// 상품명
-					if (prod.length < 1) {
-						alert("상품명은 1자 이상으로 설정해야 합니다.");
-						$("#upd_prod_name").val("").focus();
-						return false;
-					}
-					// 상품명
-					if($.trim(prod) !== prod){
-						alert("상품명은 공백 입력이 불가능합니다.");
-						return false;
-					}
-					
-					// 가격
-					if (price.length < 3) {
-						alert("가격은 천원 이상으로 설정해야 합니다.");
-						$("#prod_price").focus();
-						return false;
-					}
-					// 가격
-					if($.trim(price) !== price){
-						alert("가격은 공백입력이 불가능합니다.");
-						return false;
-					}
-					
-					//var inParam = $("#joinForm").serializeArray();
-					var inParam = {
-						prod_name:name,
-						prod_price:price,
-						prod_use_yn:use,
-						prod_etc:etc
-					};
-					var outParam = {};
-					gl_ajax("./productWrite.api"
-							, inParam
-							, function(outParam) {
-								console.log("ok");
-								location.href = "./productListView.api";
-							} 
-					);
-					
+					pageJs.dataUpd();
 				});
 				// --변경
 				
+				// 삭제
+				$("#btnDelete").click(function(){
+					pageJs.dataDel();
+				});
+				// --삭제 
+				
 				// 엑셀다운로드
 				$("#btnExcelDown").on("click", function(){
-
-					var inParam = {
-						prod_name:$("#prod_name").val(),
-						prod_price:$("#prod_price").val(),
-						prod_use_yn:"Y"
-					};
-					var outParam = {};
-					gl_ajax("./prodExcelDown.api"
-							, inParam
-							, function(outParam) {
-								console.log("excel ok");
-							} 
-					);
-					
-					
+					pageJs.excelDown();
 				});
 			}
 			,searchBef:function(){
@@ -201,7 +103,7 @@ input.formInput {
 									var itemList = "<tr style='border: 1px solid grey; height: 50px;'>";
 									itemList += "<td><span style='color: #ccc;padding: 5px 5px 5px 5px;'>"+item.PROD_YMD+"</span></td>";
 									itemList += "<td><span style='color: #ccc;padding: 5px 5px 5px 5px;'>"+item.PROD_NO+"</span></td>";
-									itemList += "<td><span style='color: #ccc;padding: 5px 5px 5px 5px;'>"+item.PROD_NAME+"</span></td>";
+									itemList += "<td id='rowDetail'><span style='color: #ccc;padding: 5px 5px 5px 5px; cursor: pointer;'><u>"+item.PROD_NAME+"</u></span></td>";
 									itemList += "<td><span style='color: #ccc;padding: 5px 5px 5px 5px;'>"+item.PROD_PRICE+"</span></td>";
 									itemList += "<td><span style='color: #ccc;padding: 5px 5px 5px 5px;'>"+item.PROD_USE_YN+"</span></td>";
 									itemList += "<td><span style='color: #ccc;padding: 5px 5px 5px 5px;'>"+item.PROD_ETC+"</span></td>";
@@ -209,6 +111,9 @@ input.formInput {
 										
 									$("#tbody").append(itemList);
 											
+									$("#tbody tr").find("#rowDetail").eq(index).on("click", function(){
+										pageJs.dataOnce(item);
+									});
 								});// end each
 										
 								$("#paging").html(result.paging);
@@ -224,9 +129,154 @@ input.formInput {
 				);// end of ajax
 				
 			}
+			,dataWrite:function(){
+
+				var prod = $("#reg_prod_name").val();
+				var price = $("#reg_prod_price").val();
+				var use = $("#reg_use_yn").val();
+				var etc = $("#reg_use_etc").val();
+				
+				// 상품명
+				if (prod.length < 1) {
+					alert("상품명은 1자 이상으로 설정해야 합니다.");
+					$("#reg_prod_name").focus();
+					return false;
+				}
+				// 상품명
+				if($.trim(prod) !== prod){
+					alert("상품명은 공백 입력이 불가능합니다.");
+					return false;
+				}
+				
+				// 가격
+				if (price.length < 3) {
+					alert("가격은 천원 이상으로 설정해야 합니다.");
+					$("#reg_prod_price").focus();
+					return false;
+				}
+				// 가격
+				if($.trim(price) !== price){
+					alert("가격은 공백입력이 불가능합니다.");
+					return false;
+				}
+				
+				var inParam = {
+					prod_name:prod,
+					prod_price:price,
+					prod_use_yn:use,
+					prod_etc:etc
+				};
+				var outParam = {};
+				gl_ajax("./productWrite.api"
+						, inParam
+						, function(outParam) {
+							console.log("ok");
+							location.href = "./productListView.api";
+						} 
+				);
+			}
+			,dataOnce:function(item){
+				//alert(JSON.stringify(item));
+				console.log(JSON.stringify(item));
+				
+				$("#upd_prod_no").val(item.PROD_NO);
+				$("#upd_prod_ymd").val(item.PROD_YMD);
+				$("#upd_prod_name").val(item.PROD_NAME);
+				$("#upd_prod_price").val(item.PROD_PRICE);
+				$("#upd_use_yn").val(item.PROD_USE_YN);
+				$("#upd_prod_etc").val(item.PROD_ETC);
+				
+				$("#regArea").hide();
+				$("#updArea").show();	
+			}
+			,dataUpd:function(){
+				var ymd = $("#upd_prod_ymd").val();
+				var no = $("#upd_prod_no").val();
+				var name = $("#upd_prod_name").val();
+				var price = $("#upd_prod_price").val();
+				var use = $("#upd_use_yn").val();
+				var etc = $("#upd_prod_etc").val();
+				
+				// 상품명
+				if (name.length < 1) {
+					alert("상품명은 1자 이상으로 설정해야 합니다.");
+					$("#upd_prod_name").focus();
+					return false;
+				}
+				// 상품명
+				if($.trim(name) !== name){
+					alert("상품명은 공백 입력이 불가능합니다.");
+					return false;
+				}
+				
+				// 가격
+				if (price.length < 3) {
+					alert("가격은 천원 이상으로 설정해야 합니다.");
+					$("#prod_price").focus();
+					return false;
+				}
+				// 가격
+				if($.trim(price) !== price){
+					alert("가격은 공백입력이 불가능합니다.");
+					return false;
+				}
+				
+				//var inParam = $("#joinForm").serializeArray();
+				var inParam = {
+					prod_ymd:ymd,
+					prod_no:no,
+					prod_name:name,
+					prod_price:price,
+					prod_use_yn:use,
+					prod_etc:etc
+				};
+				alert(JSON.stringify(inParam));
+				var outParam = {};
+				gl_ajax("./productUpd.api"
+						, inParam
+						, function(outParam) {
+							console.log("ok");
+							location.href = "./productListView.api";
+						} 
+				);
+			}
+			,dataDel:function(){
+				if(confirm("정말 삭제하시겠습니까?")){
+					var ymd = $("#upd_prod_ymd").val();
+					var no = $("#upd_prod_no").val();
+					
+					var inParam = {
+						prod_ymd:ymd,
+						prod_no:no
+					};
+					var outParam = {};
+					gl_ajax("./productDel.api"
+							, inParam
+							, function(outParam) {
+								console.log("ok");
+								location.href = "./productListView.api";
+							} 
+					);
+				}
+			}
 			,pageMove:function(idx){
 				pageJs.pageIndex = idx;
 				pageJs.search();
+			}
+			,excelDown:function(){
+				var inParam = {
+					prod_name:$("#prod_name").val(),
+					prod_price:$("#prod_price").val(),
+					prod_use_yn:"Y"
+				};
+				var outParam = {};
+				gl_ajax("./prodExcelDown.api"
+						, inParam
+						, function(outParam) {
+							console.log("excel ok");
+						} 
+				);
+				
 			}
 	};
 	
@@ -367,6 +417,8 @@ input.formInput {
 		</div>
 			  
 		<div class="" style="border: 1px solid orange;">
+      		<input type="hidden" id="upd_prod_ymd" name="upd_prod_ymd" class="formInput" />
+      		<input type="hidden" id="upd_prod_no" name="upd_prod_no" class="formInput" />
 			<table class="" style="width: 100%">
 				<colgroup>
 					<col>
@@ -378,7 +430,7 @@ input.formInput {
 			  	  <tr>
 			      	<th class="formLabel" >상품</th>
 			      	<td style="width: 30%;">
-			      		<input type="text" id="upd_prod_product" name="upd_prod_product" class="formInput" />
+			      		<input type="text" id="upd_prod_name" name="upd_prod_name" class="formInput" />
 			      	</td>
 			      	
 			      	<th class="formLabel" >가격</th>
@@ -408,6 +460,7 @@ input.formInput {
 		<div class="formBtnArea" >
 			<!-- sub title -->
 			<button class="formBtn" id="btnUpdate" >변경</button>
+			<button class="formBtn" id="btnDelete" >삭제</button>
 			<!--p class="sub_caption">[회원구분없는 문의게시판입니다.]</p-->
 		</div>
 		<!-- //상단버튼 -->	

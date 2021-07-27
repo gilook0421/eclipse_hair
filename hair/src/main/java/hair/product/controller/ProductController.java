@@ -2,6 +2,7 @@ package hair.product.controller;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -32,18 +33,21 @@ public class ProductController {
 	@Resource
 	ProductService service;
 	
-	// 상품 리스트 뷰
+	// 리스트 뷰
 	@RequestMapping(value="/productListView.api", method=RequestMethod.GET)
 	public String productListView() throws Exception{
 		return "product/productList";
 	}
 	
 
-	// 상품 리스트
+	// 리스트
 	@ResponseBody
 	@RequestMapping(value="/productList.api", method=RequestMethod.POST)
-	public HashMap<String, Object> productList(@RequestBody RequestMap param, HttpServletRequest request) throws Exception{
+	public HashMap<String, Object> productList(@RequestBody Map<String, Object> paramMap, HttpServletRequest request) throws Exception{
 
+        //if(logger.isInfoEnabled()) logger.info("[RequestMap] paramMap : " + paramMap.toString());
+        
+        RequestMap param = new RequestMap(paramMap);
 		int pageIndex = param.get("pageIndex")==null?1:(int) param.get("pageIndex");
 		int mntViewCnt = param.get("mntViewCnt")==null?10:(int) param.get("mntViewCnt");
 		int pageSize = param.get("pageSize")==null?5:(int) param.get("pageSize");
@@ -73,23 +77,68 @@ public class ProductController {
 	}
 	
 	
-	// 상품 글쓰기
+	// 생성 
 	@ResponseBody
 	@RequestMapping(value="/productWrite.api", method=RequestMethod.POST)
-	public HashMap<String, Object> ProductWrite(@RequestBody RequestMap param, HttpServletRequest request) throws Exception{
+	public HashMap<String, Object> ProductWrite(@RequestBody Map<String, Object> paramMap, HttpServletRequest request) throws Exception{
 
+        RequestMap param = new RequestMap(paramMap);
 		String prod_name = param.get("prod_name")==null?"":(String) param.get("prod_name");
-		String prod_price = param.get("prod_name")==null?"":(String) param.get("prod_price");
-		String prod_use_yn = param.get("prod_name")==null?"":(String) param.get("prod_use_yn");
+		String prod_price = param.get("prod_price")==null?"":(String) param.get("prod_price");
+		String prod_use_yn = param.get("prod_use_yn")==null?"":(String) param.get("prod_use_yn");
 		if("".equals(prod_name) || "".equals(prod_price) || "".equals(prod_use_yn)) {
 			throw new RuntimeException("파라미터 null 오류."); 
 		}
-		//, #{prod_name}
-		//, #{prod_price}
-		//, #{prod_use_yn}
 		
 		HashMap<String, Object> view = new HashMap<>();
-		view = service.write(param);
+		view = service.productWrite(param);
+		
+		return view;
+	}
+	
+
+	// 변경
+	@ResponseBody
+	@RequestMapping(value="/productUpd.api", method=RequestMethod.POST)
+	public HashMap<String, Object> productUpd(@RequestBody Map<String, Object> paramMap, HttpServletRequest request) throws Exception{
+
+        RequestMap param = new RequestMap(paramMap);
+		String prod_ymd = param.get("prod_ymd")==null?"":(String) param.get("prod_ymd");
+		String prod_no = param.get("prod_no")==null?"":(String) param.get("prod_no");
+		String prod_name = param.get("prod_name")==null?"":(String) param.get("prod_name");
+		String prod_price = param.get("prod_price")==null?"":(String) param.get("prod_price");
+		String prod_use_yn = param.get("prod_use_yn")==null?"":(String) param.get("prod_use_yn");
+
+        if(logger.isInfoEnabled()) logger.info("[RequestMap] prod_ymd : " + prod_ymd);
+        if(logger.isInfoEnabled()) logger.info("[RequestMap] prod_no : " + prod_no);
+        if(logger.isInfoEnabled()) logger.info("[RequestMap] prod_name : " + prod_name);
+        if(logger.isInfoEnabled()) logger.info("[RequestMap] prod_price : " + prod_price);
+        if(logger.isInfoEnabled()) logger.info("[RequestMap] prod_use_yn : " + prod_use_yn);
+		
+		if("".equals(prod_ymd) || "".equals(prod_no) || "".equals(prod_name) || "".equals(prod_price) || "".equals(prod_use_yn)) {
+			throw new RuntimeException("파라미터 null 오류."); 
+		}
+		
+		HashMap<String, Object> view = new HashMap<>();
+		view = service.productUpd(param);
+		
+		return view;
+	}
+
+	// 삭제
+	@ResponseBody
+	@RequestMapping(value="/productDel.api", method=RequestMethod.POST)
+	public HashMap<String, Object> productDel(@RequestBody Map<String, Object> paramMap, HttpServletRequest request) throws Exception{
+
+        RequestMap param = new RequestMap(paramMap);
+		String prod_ymd = param.get("prod_ymd")==null?"":(String) param.get("prod_ymd");
+		String prod_no = param.get("prod_no")==null?"":(String) param.get("prod_no");
+		if("".equals(prod_ymd) || "".equals(prod_no)) {
+			throw new RuntimeException("파라미터 null 오류."); 
+		}
+		
+		HashMap<String, Object> view = new HashMap<>();
+		view = service.productDel(param);
 		
 		return view;
 	}

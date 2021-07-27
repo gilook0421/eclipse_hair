@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpSession;
@@ -13,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+
 public class RequestMap extends HashMap<String, Object>{ 
 	
 	/**
@@ -20,9 +22,13 @@ public class RequestMap extends HashMap<String, Object>{
 	 */
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = LoggerFactory.getLogger(RequestMap.class);
+
+	public RequestMap() {
+		super();
+	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public RequestMap() {
+	public RequestMap(Map<String, Object> reqParam) {
     	super();
     	
     	Date currDate = new Date();
@@ -49,10 +55,33 @@ public class RequestMap extends HashMap<String, Object>{
             }
         }
 		
-    	this.toString();
+
+        if( reqParam != null) {
+            set2 = reqParam.entrySet();
+            iterator2 = set2.iterator();
+            while(iterator2.hasNext()){
+                Entry<String, Object> entry = (Entry)iterator2.next();
+                String key = (String)entry.getKey();
+                if( entry.getValue() instanceof String ) {
+                    String value = (String)entry.getValue();
+                	put(key, value);
+                }
+                else if( entry.getValue() instanceof Integer ) {
+                    int value = (int)entry.getValue();
+                	put(key, value);
+                }
+                else {
+                    Object value = (Object)entry.getValue();
+                	put(key, value);
+                }
+            }
+        }
         
+        this.toString();
+
     }
-    
+
+	
     @SuppressWarnings("unchecked")
 	private HashMap<String, Object> getSession(){
         ServletRequestAttributes servletRequestAttribute = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
@@ -62,7 +91,6 @@ public class RequestMap extends HashMap<String, Object>{
     }
 
     
-
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public String toString() {

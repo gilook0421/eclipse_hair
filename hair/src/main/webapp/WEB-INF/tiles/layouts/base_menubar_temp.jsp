@@ -49,6 +49,14 @@ h1{color: gray;float: left;
 
 #footer{text-align: center;margin: 0 auto; padding-top: 900px;}
 </style>
+<script>
+var DOMAIN = '<%= request.getRemoteAddr() %>';
+var DOMAIN_PORT = '<%= request.getServerPort() %>';
+var DOMAIN_CONTEXT_PATH = '<%= request.getContextPath() %>';
+var DOMAIN_PREFIX = DOMAIN+":"+DOMAIN_PORT+DOMAIN_CONTEXT_PATH;
+$(function(){
+})
+</script>
 
 
 <title><tiles:getAsString name="title" /></title>

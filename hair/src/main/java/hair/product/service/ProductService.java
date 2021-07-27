@@ -21,16 +21,16 @@ public class ProductService {
 	
 	@Inject
 	private ProductDAO dao;
-	
-	// 글쓰기
-	public HashMap<String, Object> write(RequestMap req) throws Exception{
 
-		dao.write(req);
+	// 리스트 건수
+	public int productListCnt(RequestMap req) throws Exception{
 
-		return new HashMap<String, Object>();
+		int rslt = dao.productListCnt(req);
+		
+		return rslt; 
 	}
 	
-	// 게시판 리스트
+	// 리스트
 	public List<HashMap<String, Object>> productList(RequestMap req) throws Exception{
 
 		List<HashMap<String, Object>> board = new ArrayList<>();
@@ -38,11 +38,28 @@ public class ProductService {
 		
 		return board; 
 	}
-	// 리스트 건수
-	public int productListCnt(RequestMap req) throws Exception{
 
-		int rslt = dao.productListCnt(req);
-		
-		return rslt; 
+	// 쓰기
+	public HashMap<String, Object> productWrite(RequestMap req) throws Exception{
+
+		dao.productWrite(req);
+
+		return new HashMap<String, Object>();
+	}
+
+	// 변경
+	public HashMap<String, Object> productUpd(RequestMap req) throws Exception{
+
+		dao.productUpd(req);
+
+		return new HashMap<String, Object>();
+	}
+
+	// 삭제
+	public HashMap<String, Object> productDel(RequestMap req) throws Exception{
+
+		dao.productDel(req);
+
+		return new HashMap<String, Object>();
 	}
 }

@@ -67,6 +67,14 @@ span{
 .footer{text-align: center;}
 
 </style>
+<script>
+var DOMAIN = '<%= request.getRemoteAddr() %>';
+var DOMAIN_PORT = '<%= request.getServerPort() %>';
+var DOMAIN_CONTEXT_PATH = '<%= request.getContextPath() %>';
+var DOMAIN_PREFIX = DOMAIN+":"+DOMAIN_PORT+DOMAIN_CONTEXT_PATH;
+$(function(){
+})
+</script>
 
 <title><tiles:getAsString name="title" /></title>
 <body style="padding: 50px;background-color: black;">

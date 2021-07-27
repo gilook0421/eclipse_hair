@@ -1,5 +1,4 @@
 $(function(){
-
 	console.log("[common] js.");
 	
 	// home으로 이동.
@@ -10,7 +9,7 @@ $(function(){
 })
 
 function gl_ajax(url, inParam, callback){
-	console.log("공통 ajax 호출.");
+	console.log("공통 ajax 호출. : " + url);
 
 	$.ajax({
 		url:url,

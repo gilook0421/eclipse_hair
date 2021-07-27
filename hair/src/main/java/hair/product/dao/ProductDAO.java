@@ -15,10 +15,11 @@ public class ProductDAO {
 
 	@Inject
 	SqlSession sqlSession;
-	
-	// 등록
-	public int write(RequestMap req) throws Exception{
-		return sqlSession.insert("product.write", req);
+
+	// 리스트건수
+	public int productListCnt(RequestMap req) throws Exception{
+		
+		return sqlSession.selectOne("product.listCnt", req);
 	}
 	
 	// 리스트
@@ -27,10 +28,18 @@ public class ProductDAO {
 		return sqlSession.selectList("product.list", req);
 	}
 
-	// 리스트건수
-	public int productListCnt(RequestMap req) throws Exception{
-		
-		return sqlSession.selectOne("product.listCnt", req);
+	// 등록
+	public int productWrite(RequestMap req) throws Exception{
+		return sqlSession.insert("product.write", req);
 	}
 	
+	// 변경
+	public int productUpd(RequestMap req) throws Exception{
+		return sqlSession.update("product.upd", req);
+	}
+
+	// 삭제
+	public int productDel(RequestMap req) throws Exception{
+		return sqlSession.delete("product.del", req);
+	}
 }
