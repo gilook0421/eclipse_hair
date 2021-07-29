@@ -1,32 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<style type="text/css">
-th.formLabel {
-	width: 20%;height: 50px;text-align: center; vertical-align: middle;padding-right: 5px;color: #ccc; font-size: large;
-}
-
-input.formInput {
-	background-color: black;width: 80%;height: 30px;border-top: none; border-left: none; border-right: none; border-bottom: 3px solid gray;
-}
-
-/*버튼커버*/
-.formBtnArea {
-	border: 0px solid yellow; text-align: right;padding-bottom:20px;padding-top: 10px;
-}
-/*버튼*/
-.formBtn {
-	background-color: #4CAF50; color: #fff;padding: 4px 8px;border-radius: 4px;
-}
-
-
-/* paging */
-.paging {margin:20px auto 0; text-align: center;}
-.paging ul,.paging li,.paging a{display:inline-block;}
-.paging li {pagging:0 8px; height: 22px; margin: 0 2px; border: 0px solid #dddddd; border-radius: 2px; font-size: 13px; line-height: 22px;}
-.paging li:hover {border: 1px solid #7d7a82; color:#fff; background-color: #7d7a82;}
-.paging li:hover a {color: #fff;}
-</style>
-
 <script>
 	$(function(){
 		
@@ -45,8 +18,8 @@ input.formInput {
 				
 				// 등록영역
 				$("#btnReg").on("click", function(){
-					$("#regArea").toggle("slow");
-					$("#updArea").toggle("slow");		
+					$("#regArea").show("slow");
+					$("#updArea").hide("slow");		
 				})
 				
 				// 조회
@@ -90,8 +63,8 @@ input.formInput {
 						,pageSize:pageJs.pageSize // 표시할 페이징 갯수
 						,prod_name:$("#where_prod_prod").val()
 						,prod_price:$("#where_prod_etc").val()
+						,prod_use_yn:$('input[name="where_use_yn"]:checked').val()
 						};
-				var outParam = {};
 				
 				gl_ajax("./productList.api"
 						, inParam
@@ -100,13 +73,13 @@ input.formInput {
 							$("#tbody").html("");
 							if ( result.data.length > 0 ){
 			               		$.each(result.data, function(index, item){
-									var itemList = "<tr style='border: 1px solid grey; height: 50px;'>";
-									itemList += "<td><span style='color: #ccc;padding: 5px 5px 5px 5px;'>"+item.PROD_YMD+"</span></td>";
-									itemList += "<td><span style='color: #ccc;padding: 5px 5px 5px 5px;'>"+item.PROD_NO+"</span></td>";
-									itemList += "<td id='rowDetail'><span style='color: #ccc;padding: 5px 5px 5px 5px; cursor: pointer;'><u>"+item.PROD_NAME+"</u></span></td>";
-									itemList += "<td><span style='color: #ccc;padding: 5px 5px 5px 5px;'>"+item.PROD_PRICE+"</span></td>";
-									itemList += "<td><span style='color: #ccc;padding: 5px 5px 5px 5px;'>"+item.PROD_USE_YN+"</span></td>";
-									itemList += "<td><span style='color: #ccc;padding: 5px 5px 5px 5px;'>"+item.PROD_ETC+"</span></td>";
+									var itemList = "<tr class='tableDataTr'>";
+									itemList += "<td><span class='tableData'>"+item.PROD_YMD+"</span></td>";
+									itemList += "<td><span class='tableData'>"+item.PROD_NO+"</span></td>";
+									itemList += "<td id='rowDetail'><span class='tableData' style='cursor: pointer;'><u>"+item.PROD_NAME+"</u></span></td>";
+									itemList += "<td><span class='tableData'>"+item.PROD_PRICE+"</span></td>";
+									itemList += "<td><span class='tableData'>"+item.PROD_USE_YN+"</span></td>";
+									itemList += "<td><span class='tableData'>"+item.PROD_ETC+"</span></td>";
 									itemList += "</tr>";
 										
 									$("#tbody").append(itemList);
@@ -133,7 +106,7 @@ input.formInput {
 
 				var prod = $("#reg_prod_name").val();
 				var price = $("#reg_prod_price").val();
-				var use = $("#reg_use_yn").val();
+				var use = $('input[name="reg_use_yn"]:checked').val();
 				var etc = $("#reg_use_etc").val();
 				
 				// 상품명
@@ -161,12 +134,11 @@ input.formInput {
 				}
 				
 				var inParam = {
-					prod_name:prod,
-					prod_price:price,
-					prod_use_yn:use,
-					prod_etc:etc
+					prod_name:prod
+					,prod_price:price
+					,prod_use_yn:use
+					,prod_etc:etc
 				};
-				var outParam = {};
 				gl_ajax("./productWrite.api"
 						, inParam
 						, function(outParam) {
@@ -183,18 +155,18 @@ input.formInput {
 				$("#upd_prod_ymd").val(item.PROD_YMD);
 				$("#upd_prod_name").val(item.PROD_NAME);
 				$("#upd_prod_price").val(item.PROD_PRICE);
-				$("#upd_use_yn").val(item.PROD_USE_YN);
+				$('input[name="upd_use_yn"]').val([item.PROD_USE_YN]);
 				$("#upd_prod_etc").val(item.PROD_ETC);
 				
-				$("#regArea").hide();
-				$("#updArea").show();	
+				$("#regArea").hide("slow");
+				$("#updArea").show("slow");	
 			}
 			,dataUpd:function(){
 				var ymd = $("#upd_prod_ymd").val();
 				var no = $("#upd_prod_no").val();
 				var name = $("#upd_prod_name").val();
 				var price = $("#upd_prod_price").val();
-				var use = $("#upd_use_yn").val();
+				var use = $('input[name="upd_use_yn"]:checked').val();
 				var etc = $("#upd_prod_etc").val();
 				
 				// 상품명
@@ -231,7 +203,6 @@ input.formInput {
 					prod_etc:etc
 				};
 				alert(JSON.stringify(inParam));
-				var outParam = {};
 				gl_ajax("./productUpd.api"
 						, inParam
 						, function(outParam) {
@@ -249,7 +220,6 @@ input.formInput {
 						prod_ymd:ymd,
 						prod_no:no
 					};
-					var outParam = {};
 					gl_ajax("./productDel.api"
 							, inParam
 							, function(outParam) {
@@ -269,7 +239,6 @@ input.formInput {
 					prod_price:$("#prod_price").val(),
 					prod_use_yn:"Y"
 				};
-				var outParam = {};
 				gl_ajax("./prodExcelDown.api"
 						, inParam
 						, function(outParam) {
@@ -287,13 +256,13 @@ input.formInput {
 <div id="content" style="padding-bottom: 30px;">
 
 	<!-- title -->
-	<div class="" style="border-left: 6px solid #ccc!important; border-color: #4CAF50!important;">
+	<div class="subTitle" >
 		<h3>&nbsp;상품관리</h3>
 	</div>
 	<!-- //title -->
 		
 	<!-- 조회 -->			  
-	<div class="" style="border: 1px solid orange;">
+	<div class="formArea" >
 		<table class="" style="width: 100%">
 			<colgroup>
 				<col>
@@ -313,6 +282,22 @@ input.formInput {
 		      		<input type="text" id="where_prod_etc" name="where_prod_etc" class="formInput" />
 		      	</td>
 			  </tr>
+			  
+		  	  <tr>
+		      	<th class="formLabel" >사용여부</th>
+		      	<td style="width: 30%;">
+						<input class='' type='radio' id='where_use_yn0' name='where_use_yn' value='' checked>
+						<label> 전체</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<input class='' type='radio' id='where_use_yn1' name='where_use_yn' value='Y'>
+						<label> Y</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<input class='' type='radio' id='where_use_yn2' name='where_use_yn' value='N'>
+						<label> N</label>
+		      	</td>
+		      	
+		      	<th class="formLabel" ></th>
+		      	<td style="width: 30%;">
+		      	</td>
+			  </tr>
 		  </thead>
 		</table>
 	</div>
@@ -320,45 +305,44 @@ input.formInput {
 	
 	<!-- 상단버튼 -->	
 	<div class="formBtnArea" >
-		<!-- sub title -->
 		<button class="formBtn" id="btnRetrive" >조회</button>
 		<button class="formBtn" id="btnReg" >등록</button>
 		<button class="formBtn" id="btnExcelDown" >엑셀다운로드</button>
-		<!--p class="sub_caption">[회원구분없는 문의게시판입니다.]</p-->
 	</div>
 	<!-- //상단버튼 -->	
 	
-	<!-- 상품관리 -->	
-	<div class="" style="border: 0px solid gray;font-size: large;padding: 10px 10px 10px 10px;">
+	<!-- 리스트 -->	
+	<div class="tableDiv" >
 	
-		<table class="" style="width:100%;">
+		<table class="table">
 		  	<thead>
-		  	  	<tr class="" style="text-align: center;">
-			      	<th width="5%" style="color: #ccc; text-align: left;">YMD</th>
-			      	<th width="5%" style="color: #ccc; text-align: left;">NO</th>
-			      	<th width="*" style="color: #ccc; text-align: left;">상품</th>
-			      	<th width="20%" style="color: #ccc; text-align: left;">가격</th>
-			      	<th width="20%" style="color: #ccc; text-align: left;">사용여부</th>
-			      	<th width="20%" style="color: #ccc; text-align: left;">비고</th>
+		  	  	<tr class="tableHeaderTr">
+			      	<th width="5%" class="tableHeaderLeft">YMD</th>
+			      	<th width="5%" class="tableHeaderLeft">NO</th>
+			      	<th width="*" class="tableHeaderLeft">상품</th>
+			      	<th width="20%" class="tableHeaderLeft">가격</th>
+			      	<th width="20%" class="tableHeaderLeft">사용여부</th>
+			      	<th width="20%" class="tableHeaderLeft" >비고</th>
 	    	  	</tr>
 		  	</thead>
 		  	<tbody id="tbody" class=""></tbody>
 		</table>
 		
 	</div>
+	<!-- //리스트 -->
 	
 	<!-- paging -->
 	<div class="paging" id="paging" ></div>
-	<!-- //상품관리 -->
+	<!-- //paging -->
 				
-	<!-- 상품등록 -->	
+	<!-- 등록 -->	
 	<div id="regArea" style="display: none;">
 	
-		<div class="" style="border-left: 6px solid #ccc!important; border-color: #4CAF50!important;">
-			<h3>&nbsp;상품등록</h3>
+		<div class="subTitle" >
+			<h3>&nbsp;등록</h3>
 		</div>
 			  
-		<div class="" style="border: 1px solid orange;">
+		<div class="formArea" >
 			<table class="" style="width: 100%">
 				<colgroup>
 					<col>
@@ -382,7 +366,7 @@ input.formInput {
 			  	  <tr>
 			      		<th class="formLabel" >사용여부</th>
 			      		<td style="width: 30%;">
-							<input class='' type='radio' id='reg_use_yn0' name='reg_use_yn' value='Y'>
+							<input class='' type='radio' id='reg_use_yn0' name='reg_use_yn' value='Y' checked>
 							<label> Y</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<input class='' type='radio' id='reg_use_yn1' name='reg_use_yn' value='N'>
 							<label> N</label>
@@ -397,26 +381,24 @@ input.formInput {
 			</table>
 		</div>
 		
-		<!-- 상단버튼 -->	
+		<!-- 하단버튼 -->	
 		<div class="formBtnArea" >
-			<!-- sub title -->
 			<button class="formBtn" id="btnWrite" >저장</button>
-			<!--p class="sub_caption">[회원구분없는 문의게시판입니다.]</p-->
 		</div>
-		<!-- //상단버튼 -->	
+		<!-- //하단버튼 -->	
 		
 	</div>
-	<!-- //상품등록 -->
+	<!-- //등록 -->
 
 
-	<!-- 상품변경 -->	
+	<!-- 변경 -->	
 	<div id="updArea" style="display: none;">
 	
-		<div class="" style="border-left: 6px solid #ccc!important; border-color: #4CAF50!important;">
-			<h3>&nbsp;상품변경</h3>
+		<div class="subTitle" >
+			<h3>&nbsp;변경</h3>
 		</div>
 			  
-		<div class="" style="border: 1px solid orange;">
+		<div class="formArea" >
       		<input type="hidden" id="upd_prod_ymd" name="upd_prod_ymd" class="formInput" />
       		<input type="hidden" id="upd_prod_no" name="upd_prod_no" class="formInput" />
 			<table class="" style="width: 100%">
@@ -442,7 +424,7 @@ input.formInput {
 			  	  <tr>
 			      		<th class="formLabel" >사용여부</th>
 			      		<td style="width: 30%;">
-							<input class='' type='radio' id='upd_use_yn0' name='upd_use_yn' value='Y'>
+							<input class='' type='radio' id='upd_use_yn0' name='upd_use_yn' value='Y' >
 							<label> Y</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<input class='' type='radio' id='upd_use_yn1' name='upd_use_yn' value='N'>
 							<label> N</label>
@@ -456,16 +438,16 @@ input.formInput {
 			  </thead>
 			</table>
 		</div>
-		<!-- 상단버튼 -->	
+		
+		<!-- 하단버튼 -->	
 		<div class="formBtnArea" >
-			<!-- sub title -->
 			<button class="formBtn" id="btnUpdate" >변경</button>
 			<button class="formBtn" id="btnDelete" >삭제</button>
-			<!--p class="sub_caption">[회원구분없는 문의게시판입니다.]</p-->
 		</div>
-		<!-- //상단버튼 -->	
+		<!-- //하단버튼 -->
+			
 	</div>
-	<!-- //상품변경 -->
+	<!-- //변경 -->
 	
 </div>
 

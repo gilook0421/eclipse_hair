@@ -86,13 +86,13 @@
 	<!-- 변경 -->
 	<update id="upd" parameterType="requestMap">
 		update /*+ product.upd */
-		from hair_product
+		hair_product
 		set prod_name = #{prod_name}
 			, prod_price = #{prod_price}
 			, prod_use_yn = #{prod_use_yn}
 			, prod_etc = #{prod_etc}
 			, prod_upd_date = now()
-		where prod_ymd = #prod_ymd}
+		where prod_ymd = #{prod_ymd}
 		and prod_no = #{prod_no}
 		and mem_id = #{mem_id}
 	</update>
@@ -102,7 +102,7 @@
 	<update id="del" parameterType="requestMap">
 		delete /*+ product.del */
 		from hair_product
-		where prod_ymd = #prod_ymd}
+		where prod_ymd = #{prod_ymd}
 		and prod_no = #{prod_no}
 		and mem_id = #{mem_id}
 	</update>

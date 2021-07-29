@@ -109,12 +109,6 @@ public class ProductController {
 		String prod_price = param.get("prod_price")==null?"":(String) param.get("prod_price");
 		String prod_use_yn = param.get("prod_use_yn")==null?"":(String) param.get("prod_use_yn");
 
-        if(logger.isInfoEnabled()) logger.info("[RequestMap] prod_ymd : " + prod_ymd);
-        if(logger.isInfoEnabled()) logger.info("[RequestMap] prod_no : " + prod_no);
-        if(logger.isInfoEnabled()) logger.info("[RequestMap] prod_name : " + prod_name);
-        if(logger.isInfoEnabled()) logger.info("[RequestMap] prod_price : " + prod_price);
-        if(logger.isInfoEnabled()) logger.info("[RequestMap] prod_use_yn : " + prod_use_yn);
-		
 		if("".equals(prod_ymd) || "".equals(prod_no) || "".equals(prod_name) || "".equals(prod_price) || "".equals(prod_use_yn)) {
 			throw new RuntimeException("파라미터 null 오류."); 
 		}

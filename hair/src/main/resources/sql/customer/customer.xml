@@ -5,60 +5,116 @@
 
 <mapper namespace="customer">
 
-	<!-- 손님명단 -->
-	<select id="list" parameterType="java.util.HashMap" resultType="java.util.HashMap">
-		select cust_no,
-				cust_id,
+	<!-- 페이징 -->
+	<sql id="COMMON_PAGING_HEADER">
+		select R1.* FROM(	
+	</sql>
+	
+	<sql id="COMMON_PAGING_TAIL">
+		) R1
+		LIMIT #{mntViewCnt, jdbcType=INTEGER} OFFSET #{pageIndex, jdbcType=INTEGER} 
+	</sql>
+	<!-- //페이징 -->
+	
+	<!-- 리스트 -->
+	<select id="list" parameterType="requestMap" resultType="java.util.HashMap">
+		<include refid="COMMON_PAGING_HEADER"/>
+		select /*+ customer.list */
+				cust_ymd,
+				cust_no,
+				mem_id,
 				cust_name,
 				cust_sex,
 				cust_phone1,
 				cust_phone2,
 				cust_phone3,
-				cust_REG_DATE,
-				cust_UPD_DATE
+				cust_etc,
+				cust_reg_date,
+				cust_upd_date
 		FROM hair_customer
-        where cust_id like '%'||#{mem_id}||'%'
+        where mem_id like '%'||#{mem_id}||'%'
         order by cust_upd_date desc, cust_no desc
-        limit 1,10
+		<include refid="COMMON_PAGING_TAIL"/>
 	</select>
+	<!-- //리스트 -->
 	
-	<!-- 손님검색 -->
-	<select id="selectOne" parameterType="java.util.HashMap" resultType="java.util.HashMap">
-		select cust_no,
-				cust_id,
-				cust_name,
-				cust_sex,
-				cust_phone1,
-				cust_phone2,
-				cust_phone3,
-				cust_REG_DATE,
-				cust_UPD_DATE
+	<!-- 리스트 건수 -->
+	<select id="listCnt" parameterType="requestMap" resultType="java.lang.Integer">
+		select /*+ customer.listCnt */
+				count(*) cnt
 		FROM hair_customer
-        where cust_id = #{cust_id}
-        and cust_name like concat('%', #{cust_name}, '%')
-        and cust_phone1 like concat('%', #{cust_phone1}, '%')
+        where mem_id like '%'||#{mem_id}||'%'
 	</select>
+	<!-- //리스트 건수 -->
 	
-	<!-- 손님등록 -->
-	<insert id="write" parameterType="java.util.HashMap">
-		insert into hair_customer
-		(cust_id
-		, cust_name
-		, cust_sex
-		, cust_phone1
-		, cust_phone2
-		, cust_phone3
-		, cust_reg_date
-		, cust_upd_date)
-		values
-		( #{cust_id}
-		, #{cust_name}
-		, #{cust_sex}
-		, #{cust_phone1}
-		, #{cust_phone2}
-		, #{cust_phone3}
-		, now()
-		, now())
+	<!-- 등록 -->
+	<insert id="write" parameterType="requestMap">
+		insert into /*+ customer.write */
+		hair_customer
+		(
+			cust_ymd,
+			cust_no,
+			mem_id,
+			cust_name,
+			cust_sex,
+			cust_phone1,
+			cust_phone2,
+			cust_phone3,
+			cust_etc,
+			cust_reg_date,
+			cust_upd_date
+		)
+		value
+		( 
+			DATE_FORMAT(sysdate(), '%Y%m%d')
+			,(select 
+					a.cust_no
+	        	from(select 
+	        				IFNULL(MAX(cust_no) + 1, 1) cust_no
+	        			from hair_customer) a
+        	)
+	        ,#{mem_id}
+			, #{cust_name}
+			, #{cust_sex}
+			, #{cust_phone1}
+			, #{cust_phone2}
+			, #{cust_phone3}
+			, #{cust_etc}
+			, now()
+			, now()
+			)
 	</insert>
+	<!-- //등록 -->
+	
+	<!-- 변경 -->
+	<update id="upd" parameterType="requestMap">
+		update /*+ customer.upd */
+		hair_customer
+		set cust_name = #{cust_name}
+			, cust_sex = #{cust_sex}
+			, cust_phone1 = #{cust_phone1}
+			, cust_phone2 = #{cust_phone2}
+			, cust_phone3 = #{cust_phone3}
+			, cust_etc = #{cust_etc}
+			, cust_upd_date = now()
+		where cust_ymd = #{cust_ymd}
+		and cust_no = #{cust_no}
+		and mem_id = #{mem_id}
+	</update>
+	<!-- //변경 -->
+		
+	<!-- 삭제 -->
+	<update id="del" parameterType="requestMap">
+		delete /*+ customer.del */
+		from hair_customer
+		where cust_ymd = #{cust_ymd}
+		and cust_no = #{cust_no}
+		and mem_id = #{mem_id}
+	</update>
+	<!-- //삭제 -->
+	
+	
+	
+	
 </mapper>
 

@@ -47,8 +47,40 @@ h1{color: gray;float: left;
 .left-side-detail li{height: 1800px;}
 
 
-#footer{text-align: center;margin: 0 auto; padding-top: 900px;}
+#footer{text-align: center;margin: 0 auto; padding-top: 1200px;}
 </style>
+
+
+<style type="text/css">
+/*form area*/.formArea{border: 1px solid orange;}
+/* form 라벨 */th.formLabel {width: 20%;height: 50px;text-align: center; vertical-align: middle;padding-right: 5px;color: #ccc; font-size: large;}
+/* form input */input.formInput {background-color: black;width: 80%;height: 30px;border-top: none; border-left: none; border-right: none; border-bottom: 3px solid gray;}
+
+/*버튼커버*/.formBtnArea {border: 0px solid yellow; text-align: right;padding-bottom:20px;padding-top: 10px;}
+/*버튼*/.formBtn {background-color: #4CAF50; color: #fff;padding: 4px 8px;border-radius: 4px;}
+
+/*타이틀*/.subTitle{border-left: 6px solid #ccc!important; border-color: #4CAF50!important;}
+
+/*테이블div*/.tableDiv{border: 0px solid gray;font-size: large;padding: 10px 10px 10px 10px;}
+/*테이블*/.table{width:100%;}
+/*테이블tr*/.tableHeaderTr{text-align: center;}
+/*테이블헤더L*/.tableHeaderLeft{color: #ccc; text-align: left;}
+/*테이블헤더C*/.tableHeaderCenter{color: #ccc; text-align: center;}
+/*테이블헤더R*/.tableHeaderRight{color: #ccc; text-align: right;}
+/*테이블데이터tr*/.tableDataTr{style='border: 1px solid grey; height: 50px;'}
+/*테이블데이터*/.tableData{color: #ccc;padding: 5px 5px 5px 5px;}
+
+/* paging */
+.paging {margin:20px auto 0; text-align: center;}
+.paging ul,.paging li,.paging a{display:inline-block;}
+.paging li {pagging:0 8px; height: 22px; margin: 0 2px; border: 0px solid #dddddd; border-radius: 2px; font-size: 13px; line-height: 22px;}
+.paging li:hover {border: 1px solid #7d7a82; color:#fff; background-color: #7d7a82;}
+.paging li:hover a {color: #fff;}
+
+
+</style>
+
+
 <script>
 var DOMAIN = '<%= request.getRemoteAddr() %>';
 var DOMAIN_PORT = '<%= request.getServerPort() %>';
@@ -69,8 +101,8 @@ $(function(){
 	    	<div id="comm"><tiles:insertAttribute name="comm" /></div>
 	    	<div id="left-side" style="padding-top: 25px;">
 	    		<ul id="left-side-detail">
-	    			<li style="float:left;width: 10%;height: 900px;border: 1px solid gray;"><tiles:insertAttribute name="left-side" /></li>
-	    			<li style="float:left;width: 90%;height: 900px;padding-left: 5px;"><tiles:insertAttribute name="body" /></li>
+	    			<li style="float:left;width: 10%;height: 1200px;border: 1px solid gray;"><tiles:insertAttribute name="left-side" /></li>
+	    			<li style="float:left;width: 90%;height: 1200px;padding-left: 5px;"><tiles:insertAttribute name="body" /></li>
 	    		</ul>
 	    	</div>
 	    	<div id="footer" class="footer"><tiles:insertAttribute name="footer" /></div>
