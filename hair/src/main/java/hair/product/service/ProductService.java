@@ -62,4 +62,14 @@ public class ProductService {
 
 		return new HashMap<String, Object>();
 	}
+
+	// 엑셀다운로드
+	public List<HashMap<String, Object>> prodExcelDown(RequestMap req) throws Exception{
+
+		List<HashMap<String, Object>> board = new ArrayList<>();
+		board = dao.prodExcelDown(req);
+		
+		return board; 
+	}
+	
 }

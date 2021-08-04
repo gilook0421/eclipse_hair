@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import hair.product.service.ProductService;
 import hair.support.HandlerMap.RequestMap;
+import hair.support.excelAjax.ExcelMakeUtilSXSSF;
 import hair.support.paging.DefaultPaginationManager;
 import hair.support.paging.PaginationInfo;
 import hair.support.paging.PaginationManager;
@@ -138,10 +140,34 @@ public class ProductController {
 	}
 	
 	// excelDown
-	@ResponseBody
 	@RequestMapping(value="/prodExcelDown.api", method=RequestMethod.POST)
-	public Object prodExcelDown(HttpServletRequest request) throws Exception{
+	public void prodExcelDown(HttpServletRequest request, HttpServletResponse response) throws Exception{
+
+		String prod_name = request.getParameter("prod_name")==null?"":(String) request.getParameter("prod_name");
+		String prod_price = request.getParameter("prod_name")==null?"":(String) request.getParameter("prod_price");
+		String prod_use_yn = request.getParameter("prod_name")==null?"":(String) request.getParameter("prod_use_yn");
+
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("prod_name", prod_name);
+		paramMap.put("prod_price", prod_price);
+		paramMap.put("prod_use_yn", prod_use_yn);
 		
-		return null;
+        RequestMap param = new RequestMap(paramMap);
+		List<HashMap<String, Object>> data = service.prodExcelDown(param);
+        
+		// title,col,type
+		String[] header = {
+				"ymd:PROD_YMD:String"
+				,"no:PROD_NO:String"
+				,"상품:PROD_NAME:String"
+				,"가격:PROD_PRICE:String"
+				,"사용여부:PROD_USE_YN:String"
+				,"비고:PROD_ETC:String"
+		};
+		
+		ExcelMakeUtilSXSSF.excelMaker(header, data, "상품관리", response);
+		
 	}
+	
+	
 }

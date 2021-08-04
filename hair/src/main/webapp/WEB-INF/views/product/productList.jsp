@@ -48,7 +48,7 @@
 				
 				// 엑셀다운로드
 				$("#btnExcelDown").on("click", function(){
-					pageJs.excelDown();
+					pageJs.excelDown("상품관리");
 				});
 			}
 			,searchBef:function(){
@@ -233,8 +233,8 @@
 				pageJs.pageIndex = idx;
 				pageJs.search();
 			}
-			,excelDown:function(){
-				var inParam = {
+			,excelDown:function(pfileNm){
+				/* var inParam = {
 					prod_name:$("#prod_name").val(),
 					prod_price:$("#prod_price").val(),
 					prod_use_yn:"Y"
@@ -244,7 +244,56 @@
 						, function(outParam) {
 							console.log("excel ok");
 						} 
-				);
+				); */
+				// ajax로 다운로드하기
+				var excelUrl = "./prodExcelDown.api";
+				var request = new XMLHttpRequest();
+				request.open('POST', excelUrl, true);
+				request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8"');
+				request.responseType = "blob";
+				request.onload = function(e){
+					var filename = pfileNm;
+					var disposition = request.getResponseHeader('Content-Disposition');
+					if(disposition && disposition.indexOf('attachment') !== -1){
+						var filenameRegex = /filename[^;=\n]*=((["]).*?\2|[^;\n]*)/;
+						var matches = filenameRegex.exec(disposition);
+						if(matches != null && matches[1]) filename = decodeURI(matches[1].replace(/['"]/g, ''));
+					}
+					
+					console.log("filename : " + filename);
+					
+					if(this.status === 200){
+						var blob = this.response;
+						if(window.navigator.msSaveOrOpenBlob){
+							window.navigator.msSaveBlob(blob, filename);
+						}
+						else{
+							var downloadLink = window.document.createElement('a');
+							var contentTypeHeader = request.getResponseHeader("Content-Type");
+							downloadLink.href = window.URL.createObjectURL(new Blob([blob], {type: contentTypeHeader}));
+							downloadLink.download = filename;
+							document.body.appendChild(downloadLink);
+							downloadLink.click();
+							document.body.removeChild(downloadLink);
+						}
+					}
+					
+				}
+
+				/* var inParam = {
+						pageIndex:pageJs.pageIndex// 페이징 위치
+						,mntViewCnt:pageJs.mntViewCnt // 가져올 로우 수
+						,pageSize:pageJs.pageSize // 표시할 페이징 갯수
+						,prod_name:$("#where_prod_prod").val()
+						,prod_price:$("#where_prod_etc").val()
+						,prod_use_yn:$('input[name="where_use_yn"]:checked').val()
+						}; */
+				var param = 'prod_name='+$("#where_prod_prod").val()
+					+'&prod_price='+$("#where_prod_etc").val()
+					+'&prod_use_yn='+$('input[name="where_use_yn"]:checked').val()
+					;
+			
+				request.send(param);
 				
 			}
 	};

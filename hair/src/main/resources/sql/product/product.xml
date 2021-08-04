@@ -108,5 +108,24 @@
 	</update>
 	<!-- //삭제 -->
 	
+	<!-- 엑셀다운로드 -->
+	<select id="excelList" parameterType="requestMap" resultType="java.util.HashMap">
+		select /*+ product.excelList */
+				PROD_YMD,
+				PROD_NO,
+				MEM_ID,
+				PROD_CODE,
+				PROD_NAME,
+				PROD_PRICE,
+				PROD_USE_YN,
+				PROD_ETC,
+				PROD_REG_DATE,
+				PROD_UPD_DATE
+		FROM hair_product
+        where MEM_ID like '%'||#{mem_id}||'%'
+        order by PROD_upd_date desc, PROD_no desc
+	</select>
+	<!-- //엑셀다운로드 -->
+	
 </mapper>
 

@@ -18,13 +18,11 @@ public class ProductDAO {
 
 	// 리스트건수
 	public int productListCnt(RequestMap req) throws Exception{
-		
 		return sqlSession.selectOne("product.listCnt", req);
 	}
 	
 	// 리스트
 	public List<HashMap<String, Object>> productList(RequestMap req) throws Exception{
-		
 		return sqlSession.selectList("product.list", req);
 	}
 
@@ -42,4 +40,10 @@ public class ProductDAO {
 	public int productDel(RequestMap req) throws Exception{
 		return sqlSession.delete("product.del", req);
 	}
+
+	// 엑셀다운로드
+	public List<HashMap<String, Object>> prodExcelDown(RequestMap req) throws Exception{
+		return sqlSession.selectList("product.excelList", req);
+	}
+	
 }
