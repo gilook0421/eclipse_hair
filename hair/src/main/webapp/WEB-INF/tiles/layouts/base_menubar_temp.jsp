@@ -52,7 +52,7 @@ h1{color: gray;float: left;
 
 
 <style type="text/css">
-/*form area*/.formArea{border: 1px solid orange;}
+/*form area*/.formArea{border: 1px solid #4CAF50;}
 /* form 라벨 */th.formLabel {width: 20%;height: 50px;text-align: center; vertical-align: middle;padding-right: 5px;color: #ccc; font-size: large;}
 /* form input */input.formInput {background-color: black;width: 80%;height: 30px;border-top: none; border-left: none; border-right: none; border-bottom: 3px solid gray;}
 

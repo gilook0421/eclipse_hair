@@ -15,8 +15,7 @@
 			}
 			
 			var inParam = $('#joinForm').serializeArray();
-			var outParam = {};
-			gl_ajax("./join.api", inParam, function(outParam) {joinCallBack(outParam);} );
+			gl_ajax("./join.api", inParam, function(result) {joinCallBack(result);} );
 	
 		});
 		
@@ -24,8 +23,7 @@
 		$("#mem_id").keyup(function() {
 			
 			var inParam = $('#joinForm').serializeArray();
-			var outParam = {};
-			gl_ajax("./checkId.api", inParam, function(outParam) {checkIdCallBack(outParam);} );
+			gl_ajax("./checkId.api", inParam, function(result) {checkIdCallBack(result);} );
 			
 		});
 		
@@ -33,8 +31,7 @@
 		$("#mem_email").keyup(function(){
 		
 			var inParam = $('#joinForm').serializeArray();
-			var outParam = {};
-			gl_ajax("./checkEmail.api", inParam, function(outParam) {checkEmailCallBack(outParam);} );
+			gl_ajax("./checkEmail.api", inParam, function(result) {checkEmailCallBack(result);} );
 			
 		});
 		

@@ -9,8 +9,7 @@
 		$("#btnRetrive").on("click", function(){
 
 			var inParam = {};
-			var outParam = {};
-			gl_ajax("./productList.api", inParam, function(outParam) {productListCallBack(outParam);} );
+			gl_ajax("./productList.api", inParam, function(result) {productListCallBack(result);} );
 			
 		});
 		// --조회

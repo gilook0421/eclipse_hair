@@ -18,7 +18,7 @@ function gl_ajax(url, inParam, callback){
 		contentType: 'application/json',
 		//datatype:"json",
         beforeSend: function (msg) {
-            console.log("[ajax beforeSend.] : " + JSON.stringify(msg));
+            //console.log("[ajax beforeSend.] : " + JSON.stringify(msg));
         },
 		success:function(result){
 			console.log("[ajax ok.] : " + JSON.stringify(result));
@@ -26,8 +26,8 @@ function gl_ajax(url, inParam, callback){
 		},
 		error:function(request,status,error){
 			console.log("[ajax fail.] : " + JSON.stringify(request) );
-			console.log("[ajax fail.] : " + JSON.stringify(status) );
-			console.log("[ajax fail.] : " + JSON.stringify(error) );
+			//console.log("[ajax fail.] : " + JSON.stringify(status) );
+			//console.log("[ajax fail.] : " + JSON.stringify(error) );
 			alert("[ajax fail.]code : " + request.status + "\nerror : " + error );
 			//return false;
 			if ( status == "error" && request.status == "500" ){
@@ -39,7 +39,7 @@ function gl_ajax(url, inParam, callback){
 		}
 		
 	}).done(function(msg){
-		console.log("[ajax after.] : " + JSON.stringify(msg) );
+		//console.log("[ajax after.] : " + JSON.stringify(msg) );
 	})
 	;
 	

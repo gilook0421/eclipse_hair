@@ -52,6 +52,9 @@
 				});
 			}
 			,searchBef:function(){
+				$("#regArea").hide("slow");
+				$("#updArea").hide("slow");	
+				
 				pageJs.pageIndex = 1;
 				pageJs.search();
 			}
@@ -141,7 +144,7 @@
 				};
 				gl_ajax("./productWrite.api"
 						, inParam
-						, function(outParam) {
+						, function(result) {
 							console.log("ok");
 							location.href = "./productListView.api";
 						} 
@@ -202,10 +205,10 @@
 					prod_use_yn:use,
 					prod_etc:etc
 				};
-				alert(JSON.stringify(inParam));
+				//alert(JSON.stringify(inParam));
 				gl_ajax("./productUpd.api"
 						, inParam
-						, function(outParam) {
+						, function(result) {
 							console.log("ok");
 							location.href = "./productListView.api";
 						} 
@@ -222,7 +225,7 @@
 					};
 					gl_ajax("./productDel.api"
 							, inParam
-							, function(outParam) {
+							, function(result) {
 								console.log("ok");
 								location.href = "./productListView.api";
 							} 
@@ -241,7 +244,7 @@
 				};
 				gl_ajax("./prodExcelDown.api"
 						, inParam
-						, function(outParam) {
+						, function(result) {
 							console.log("excel ok");
 						} 
 				); */

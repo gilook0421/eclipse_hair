@@ -87,7 +87,7 @@ public class MemberContoller {
 	// 로그인 화면이동
 	@RequestMapping(value="/loginView.api", method=RequestMethod.GET)
 	public String LoginView(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		return "/member/login";
+		return "member/login";
 	}
 
 	// 아이디찾기
@@ -115,7 +115,7 @@ public class MemberContoller {
 	// 마이페이지View
 	@RequestMapping(value="/mypageView.api", method=RequestMethod.GET)
 	public String Mypage(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		return "/member/mypage";
+		return "member/mypage";
 	}
 	
 	// 마이페이지
@@ -143,7 +143,7 @@ public class MemberContoller {
 	@RequestMapping(value="/memberListView.api", method=RequestMethod.GET)
 	public String MemberListView() throws Exception{
 	
-		return "/member/memberList";
+		return "member/memberList";
 	}
 	
 	// 회원리스트

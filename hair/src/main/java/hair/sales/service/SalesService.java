@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import hair.sales.dao.SalesDAO;
+import hair.support.HandlerMap.RequestMap;
 
 @Service
 public class SalesService{
@@ -23,6 +24,16 @@ public class SalesService{
 	
 	@Inject
 	private SalesDAO dao;
+
+	// 손님 조회
+	public List<HashMap<String, Object>> customerList(RequestMap param) throws Exception{
+
+		List<HashMap<String, Object>> list = new ArrayList<>();
+		list = dao.customerList(param);
+				
+		return list;
+	}
+	
 	
 	// 글쓰기
 	public HashMap<String, Object> write(String param, HttpServletRequest request) throws Exception{
@@ -103,32 +114,31 @@ public class SalesService{
 		return result;
 	}
 	
-	// 게시판 리스트
-	public HashMap<String, Object> list(HashMap<String, Object> param) throws Exception{
+	// 매출 리스트
+	public List<HashMap<String, Object>> salesHisList(RequestMap param) throws Exception{
 	
-		List<Object> board = new ArrayList<>();
-		board = dao.list(param);
+		List<HashMap<String, Object>> board = new ArrayList<HashMap<String, Object>>();
+		board = dao.salesHisList(param);
 				
-		HashMap<String, Object> result = new HashMap<>();
-		result.put("data", board);
-		
-		return result; 
+		return board; 
 	}
 
-	// 손님 조회
-	public HashMap<String, Object> selectOne(HashMap<String, Object> param, HttpServletRequest request) throws Exception{
+	// 상품 리스트
+	public List<HashMap<String, Object>> productList(RequestMap param) throws Exception{
 
-			//param.put("Cust_id", memberVO.get("Mem_id") );
-		
-		List<Object> list = new ArrayList<>();
-		list = dao.selectOne(param);
+		List<HashMap<String, Object>> board = new ArrayList<HashMap<String, Object>>();
+		board = dao.productList(param);
 				
-		HashMap<String, Object> result = new HashMap<>();
-		//result.put("msg", commonVO);
-		result.put("data", list);
-		
-		
-		return result;
+		return board; 
+	}
+
+	// 쓰기
+	public HashMap<String, Object> salesWrite2(RequestMap param) throws Exception{
+
+		dao.salesWrite2(param);
+
+		return new HashMap<String, Object>();
 	}
 	
+
 }

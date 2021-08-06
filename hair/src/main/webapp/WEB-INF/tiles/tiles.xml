@@ -35,51 +35,56 @@
 	</definition>
  -->
 
-	
+	<!-- home -->
 	<definition name="home" template="/WEB-INF/tiles/layouts/base_home_temp.jsp">
 		<put-attribute name="title" value="GWGroup home" />
 		<put-attribute name="header" value="/WEB-INF/tiles/base/home/headerView.jsp" />
 		<put-attribute name="menu" value="/WEB-INF/tiles/base/home/menuView.jsp" />
-		<put-attribute name="comm" value="/WEB-INF/tiles/base/common/menuCommView.jsp" />
+		<put-attribute name="comm" value="/WEB-INF/tiles/base/common/loginView.jsp" />
 		<put-attribute name="footer" value="/WEB-INF/tiles/base/home/footerView.jsp" />
 	</definition>
 	
 	<definition name="*.home" extends="home">
 		<put-attribute name="body" value="/WEB-INF/views/{1}.jsp" cascade="true" />
 	</definition>
+	<!-- //home -->
 	
 	
 	
 
+	<!-- css -->
 	<definition name="css" template="/WEB-INF/tiles/layouts/base_css_temp.jsp">
 		<put-attribute name="title" value="GWGroup css" />
 		<put-attribute name="header" value="/WEB-INF/tiles/base/css/headerView.jsp" />
 		<put-attribute name="menu" value="/WEB-INF/tiles/base/css/menuView.jsp" />
-		<put-attribute name="comm" value="/WEB-INF/tiles/base/common/menuCommView.jsp" />
+		<put-attribute name="comm" value="/WEB-INF/tiles/base/common/loginView.jsp" />
 		<put-attribute name="footer" value="/WEB-INF/tiles/base/css/footerView.jsp" />
 	</definition>
 	
 	<definition name="*.css" extends="css">
 		<put-attribute name="body" value="/WEB-INF/views/{1}.jsp" cascade="true" />
 	</definition>
+	<!-- //css -->
 		
 
 	
+	<!-- menubar -->
 	<definition name="biz-menubar" template="/WEB-INF/tiles/layouts/base_menubar_temp.jsp">
 		<put-attribute name="title" value="GWGroup" />
 		<put-attribute name="header" value="/WEB-INF/tiles/base/menubar/headerView.jsp" />
 		<put-attribute name="menu" value="/WEB-INF/tiles/base/menubar/menuView.jsp" />
-		<put-attribute name="comm" value="/WEB-INF/tiles/base/common/menuCommView.jsp" />
-		<put-attribute name="left-side" value="/WEB-INF/tiles/base/menubar/sideView.jsp" />
+		<put-attribute name="comm" value="/WEB-INF/tiles/base/common/loginView.jsp" />
 		<put-attribute name="footer" value="/WEB-INF/tiles/base/menubar/footerView.jsp" />
 	</definition>
 	
 	<definition name="*/*" extends="biz-menubar">
 		<put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" cascade="true" />
 	</definition>
+	<!-- //menubar -->
 	
 	
 	
+	<!-- menubside -->
 	<definition name="biz-menuside" template="/WEB-INF/tiles/layouts/base_menuside_temp.jsp">
 		<put-attribute name="title" value="GWGroup" />
 		<put-attribute name="header" value="/WEB-INF/tiles/base/menuside/headerView.jsp" />
@@ -90,6 +95,7 @@
 	<definition name="*/*.side" extends="biz-menuside">
 		<put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" cascade="true" />
 	</definition>
+	<!-- //menubside -->
 	
 
 </tiles-definitions>

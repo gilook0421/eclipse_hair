@@ -10,7 +10,7 @@
 					<li  id="memberListView" 	class=""><a href="/member/memberListView.api" 	target="_self" class="">회원관리</a></li> -->
 					<li  id="loginBtn" 				class="" onclick="document.getElementById('id01').style.display='block';"><a href="#" class="">로그인</a></li>
 					<li  id="mypageBtn" 			class=""><a href="/member/mypageView.api" 		target="_self" class="">나의정보</a></li>
-					<li  id="logoutBtn" 			class=""><a href="/member/logout.api" 				target="_self" class="">로그아웃</a></li>
+					<li  id="logoutBtn" 			class=""><a href="/logout.api" 				target="_self" class="">로그아웃</a></li>
 					<li  id="boardBtn" 			class=""><a href="/board/listView.api" 					target="_self" class="">게시판</a></li>
 					<li  id="prodBtn"				class=""><a href="/product/productListView.api"		target="_self" class="">상품관리</a></li>
 					<li  id="custBtn"				class=""><a href="/customer/customerListView.api"target="_self" class="">손님관리</a></li>

@@ -19,7 +19,6 @@ $(document).ready(function(){
 			mem_id:$("#id").val()
 			,mem_pw:$("#pw").val()
 		};
-		var outParam = {};
 		gl_ajax("./login.api", inParam, function(result) {
 			console.log("findPwCallBack : " + JSON.stringify(result));
 			

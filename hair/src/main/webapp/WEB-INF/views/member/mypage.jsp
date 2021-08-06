@@ -4,15 +4,13 @@
 	$(function(){
 	
 		var inParam = {};
-		var outParam = {};
-		gl_ajax("./mypageInfo.api", inParam, function(outParam) {mypageInfoCallBack(outParam);} );
+		gl_ajax("./mypageInfo.api", inParam, function(result) {mypageInfoCallBack(result);} );
 			
 		// 회원정보변경
 		 $("#myInfoUpd").click(function(){
 			
 			var inParam = {};
-			var outParam = {};
-			gl_ajax("./mypageUpd.api", inParam, function(outParam) {mypageUpdCallBack(outParam);} );
+			gl_ajax("./mypageUpd.api", inParam, function(result) {mypageUpdCallBack(result);} );
 		
 		}) 
 		
@@ -20,8 +18,7 @@
 		 $("#updatePw").click(function(){
 			
 			var inParam = {};
-			var outParam = {};
-			gl_ajax("./updatePw.api", inParam, function(outParam) {updatePwCallBack(outParam);} );
+			gl_ajax("./updatePw.api", inParam, function(result) {updatePwCallBack(result);} );
 		
 		}) 
 		
@@ -38,14 +35,13 @@
 					mem_id:$("#id").val()
 					, mem_pw:$("#old_pw").val()
 					};
-				var outParam = {};
-				gl_ajax("./memberLeave.api", inParam, function(outParam) {memberLeaveCallBack(outParam);} );
+				gl_ajax("./memberLeave.api", inParam, function(result) {memberLeaveCallBack(result);} );
 				
 			}
 			
 		})
 		
-	})
+	});
 	
 function mypageInfoCallBack(result){
 	console.log("mypageInfoCallBack : " + JSON.stringify(result));

@@ -12,8 +12,7 @@ $(function(){
 	$("#boardWriteBtn").click(function(){
 	
 		var inParam = $("#boradWriteForm").serializeArray();
-		var outParam = {};
-		gl_ajax("./boardWrite.api", inParam, function(outParam) {boardWriteCallBack(outParam);} );
+		gl_ajax("./boardWrite.api", inParam, function(result) {boardWriteCallBack(result);} );
 		
 	});
 	
@@ -33,8 +32,7 @@ $(function(){
 function onLoad(){
 
 	var inParam = {};
-	var outParam = {};
-	gl_ajax("./boardList.api", inParam, function(outParam) {boardListCallBack(outParam);} );
+	gl_ajax("./boardList.api", inParam, function(result) {boardListCallBack(result);} );
 }
 
 function boardListCallBack(result){
@@ -65,102 +63,90 @@ function boardWriteCallBack(result){
 </script>
 
 
-<div id="content">
+<div id="content" style="padding-bottom: 30px;">
 
+	<!-- title -->
+	<div class="subTitle" >
+		<h3>&nbsp;게시판</h3>
+	</div>
+	<!-- //title -->
+	
 	<!-- 조회 -->			  
-	<div class="div_main">
-		<div class="div_sub">
-			<table class="" border='1' style="width: 100%;">
-				<colgroup>
-					<col style="width:130px;">
-					<col>
-					<col style="width:130px;">
-					<col>
-				</colgroup>
-			  <thead>
-			  	  <tr>
-			      	<th class=" " style="text-align: left; vertical-align: middle;">NO</th>
-			      	<td>
-			      		<input type="text" id="prod_name" name="prod_name" style="background-color: black;">
-			      	</td>
-			      	<th class=" " style="text-align: left; vertical-align: middle;">성함</th>
-			      	<td>
-			      		<input type="text" id="prod_price" name="prod_price" style="background-color: black;">
-			      	</td>
-				  </tr>
-				  
-			  	  <tr align="right">
-			      	<td colspan="4">
-						<button class="" id="goWrite">조회</button>
-			      	</td>
-				  </tr>
-				  
-			  </thead>
-			</table>
-		</div>
+	<div class="formArea" >
+		<table class="" style="width: 100%">
+			<colgroup>
+				<col>
+				<col>
+				<col>
+				<col>
+			</colgroup>
+		  <thead>
+		  	  <tr>
+		      	<th class="formLabel" >상품</th>
+		      	<td style="width: 30%;">
+		      		<input type="text" id="where_prod_prod" name="where_prod_prod" class="formInput" />
+		      	</td>
+		      	
+		      	<th class="formLabel" >비고</th>
+		      	<td style="width: 30%;">
+		      		<input type="text" id="where_prod_etc" name="where_prod_etc" class="formInput" />
+		      	</td>
+			  </tr>
+			  
+		  	  <tr>
+		      	<th class="formLabel" >사용여부</th>
+		      	<td style="width: 30%;">
+						<input class='' type='radio' id='where_use_yn0' name='where_use_yn' value='' checked>
+						<label> 전체</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<input class='' type='radio' id='where_use_yn1' name='where_use_yn' value='Y'>
+						<label> Y</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<input class='' type='radio' id='where_use_yn2' name='where_use_yn' value='N'>
+						<label> N</label>
+		      	</td>
+		      	
+		      	<th class="formLabel" ></th>
+		      	<td style="width: 30%;">
+		      	</td>
+			  </tr>
+		  </thead>
+		</table>
 	</div>
 	<!-- //조회 -->
 	
-	<!-- 게시판 목록 -->	
-	<div class="div_main" >
-		
-			<!-- sub title -->
-		  	<div class="div_sub">
-				<div class="div_sub2">
-					<span class="">총건수</span>
-				</div>     
-				<div class="div_sub2">
-					<div class="div_sub2"><!-- Hello W3.CSS Layout.-->	
-						<button class="" id="goWrite">글쓰기</button>
-				    </div>
-					<div class="div_sub2"><!-- Hello W3.CSS Layout.-->	
-						<select id="defaultLine" name="defaultLine" class="">
-							<option value="5">5줄 표시</option>
-							<option value="10" selected>10줄 표시</option>
-			    		</select>
-				    </div>
-				</div>     
-				<!--p class="sub_caption">[회원구분없는 문의게시판입니다.]</p-->
-			</div>
-	</div>
 	
-	<div class="div_main" >
-		  	<div class="div_sub table_border">
-		  		<!-- div class="w3-container w3-card-4"-->
-	  		  <table class="" style="font-size: small;">
-			    <thead>
-	      		  <tr class="">
-			        <th>NO</th>
-			        <th width="70%;">제목</th>
-			        <th>조회</th>
-			        <th>댓글</th>
-			        <th></th>
-			      </tr>
-			    </thead>
-					  <tbody id="tbody" class="list_content">
-			    </tbody>
-			  </table>
-		    	<p class="sub_caption"><!-- Hello W3.CSS Layout.--></p>
-			</div>
-			
-		
-			<!-- paging -->
-			<div class="div_sub">
-				<!-- p>Add a w3-rounded class to round the borders:</p>
-				<div class="w3-bar w3-border w3-round"-->
-				<div class="">
-				  <a href="#" class="w3-bar-item w3-button">&laquo;</a>
-				  <a href="#" class="w3-bar-item w3-button">1</a>
-				  <a href="#" class="w3-bar-item w3-button">2</a>
-				  <a href="#" class="w3-bar-item w3-button">3</a>
-				  <a href="#" class="w3-bar-item w3-button">4</a>
-				  <a href="#" class="w3-bar-item w3-button">&raquo;</a>
-				</div>
-			</div>
-			<!-- //paging -->
+	<!-- 상단버튼 -->	
+	<div class="formBtnArea" >
+		<button class="formBtn" id="btnRetrive" >조회</button>
+		<button class="formBtn" id="btnReg" >등록</button>
+		<button class="formBtn" id="btnExcelDown" >엑셀다운로드</button>
+	</div>
+	<!-- //상단버튼 -->	
+	
+	<!-- 리스트 -->	
+	<div class="tableDiv" >
+	
+		<table class="table">
+		  	<thead>
+		  	  	<tr class="tableHeaderTr">
+			      	<th width="5%" class="tableHeaderLeft">YMD</th>
+			      	<th width="5%" class="tableHeaderLeft">NO</th>
+			      	<th width="*" class="tableHeaderLeft">상품</th>
+			      	<th width="20%" class="tableHeaderLeft">가격</th>
+			      	<th width="20%" class="tableHeaderLeft">사용여부</th>
+			      	<th width="20%" class="tableHeaderLeft" >비고</th>
+	    	  	</tr>
+		  	</thead>
+		  	<tbody id="tbody" class=""></tbody>
+		</table>
 		
 	</div>
-	<!-- //게시판 목록 -->	
+	<!-- //리스트 -->
+	
+	<!-- paging -->
+	<div class="paging" id="paging" ></div>
+	<!-- //paging -->
+	
+	
 	
 	<!-- 글쓰기 -->	
 	<div id="id01" class="w3-modal">

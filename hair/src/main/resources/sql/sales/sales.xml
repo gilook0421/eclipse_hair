@@ -6,72 +6,91 @@
 <mapper namespace="sales">
 
 	<!-- 손님검색 -->
-	<select id="sales_selectOne" parameterType="java.util.HashMap" resultType="java.util.Map">
-		select a.cust_no,
-				a.cust_id,
+	<select id="customerList" parameterType="requestMap" resultType="java.util.Map">
+		select /*+ sales.customerList */
+				a.cust_no,
+				a.mem_id,
 				a.cust_name,
+				a.cust_id,
 				a.cust_sex,
 				a.cust_phone1,
 				a.cust_phone2,
-				a.cust_REG_DATE,
-				a.cust_UPD_DATE,
+				a.cust_reg_date,
+				a.cust_upd_date,
                 b.sales_point_plus,
                 b.sales_point_minus,
                 b.sales_point_tot
 		FROM hair_customer a
-        left outer join hair_sales b on a.cust_id = b.sales_id and a.cust_no = b.sales_cust_no
-        where a.cust_id like '%'||#{cust_id}||'%'
+        left outer join hair_sales b on a.cust_id = b.cust_id
+        where a.mem_id = #{mem_id}
         and a.cust_name like concat('%', #{cust_name}, '%')
-        and a.cust_phone1 like concat('%', #{cust_phone1}, '%')
+        or a.cust_phone1 like concat('%', #{cust_phone1}, '%')
         group by a.cust_no
         order by a.cust_upd_date desc, a.cust_no desc
 	</select>
 	
 	<!-- 매출리스트 -->
-	<select id="sales_list" parameterType="java.util.HashMap" resultType="java.util.Map">
-		select sales_no,
-				sales_id,
-				sales_cust_no,
-				sales_staff_no,
+	<select id="sales_list" parameterType="RequestMap" resultType="java.util.Map">
+		select /*+ sales.sales_list */
+				sales_ymd,
+				sales_no,
+				cust_id,
 				sales_prod_name,
 				sales_prod_price,
-				sales_prod_price_tot,
 				sales_point_plus,
 				sales_point_minus,
 				sales_point_tot,
+				sales_card_yn,
+				sales_etc,
 				sales_reg_date,
 				sales_upd_date
 		FROM hair_sales a
-        inner join member b on a.sales_id = b.mem_id
-        where a.sales_cust_no like concat('%', #{sales_cust_no}, '%') 
+        where a.cust_id like concat('%', #{cust_id}, '%') 
+	</select>
+	
+	<!-- 상품리스트 -->
+	<select id="sales_prod_list" parameterType="RequestMap" resultType="java.util.Map">
+		select /*+ sales.sales_prod_list */
+			prod_name
+			,prod_price
+		FROM hair_product
+		where prod_use_yn = 'Y'
+		order by prod_name 
 	</select>
 	
 	<!-- 매출등록 -->
-	<insert id="sales_write" parameterType="java.util.HashMap">
-		insert into hair_sales
-		(sales_id
-		, sales_cust_no
-		, sales_staff_no
+	<insert id="sales_write" parameterType="RequestMap">
+		insert /*+ sales.sales_write */
+		into hair_sales
+		(sales_ymd
+		, sales_no
+		, cust_id
 		, sales_prod_name
 		, sales_prod_price
-		, sales_prod_price_tot
 		, sales_point_plus
 		, sales_point_minus
 		, sales_point_tot
-		, sales_filler1
+		, sales_card_yn
+		, sales_etc
 		, sales_reg_date
 		, sales_upd_date)
 		values
-		( #{sales_id}
-		, #{sales_cust_no}
-		, #{sales_staff_no}
+		( 
+		DATE_FORMAT(sysdate(), '%Y%m%d')
+		,(select 
+					a.sales_no
+	        	from(select 
+	        				IFNULL(MAX(sales_no) + 1, 1) sales_no
+	        			from hair_sales) a
+        )
+        , #{cust_id}
 		, #{sales_prod_name}
 		, #{sales_prod_price}
-		, #{sales_prod_price_tot}
 		, #{sales_point_plus}
 		, #{sales_point_minus}
 		, #{sales_point_tot}
-		, #{sales_filler1}
+		, #{sales_card_yn}
+		, #{sales_etc}
 		, now()
 		, now())
 	</insert>
@@ -89,7 +108,8 @@
 	index=반복되는 구문 번호이다. 0부터 순차적으로 증가
 	 -->
 	<insert id="sales_foreachIns" parameterType="java.util.HashMap">
-		insert into hair_sales
+		insert /*+ sales.sales_foreachIns */
+		into hair_sales
 		(sales_id
 		, sales_cust_no
 		, sales_staff_no

@@ -27,6 +27,7 @@ import hair.support.paging.PaginationRenderer;
 @RequestMapping("/customer")
 public class CustomerController {
 
+	@SuppressWarnings("unused")
 	private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
 	
 	@Resource
@@ -81,7 +82,7 @@ public class CustomerController {
 		String cust_name = param.get("cust_name")==null?"":(String) param.get("cust_name");
 		String cust_phone1 = param.get("cust_phone1")==null?"":(String) param.get("cust_phone1");
 		String cust_sex = param.get("cust_sex")==null?"":(String) param.get("cust_sex");
-		String cust_etc = param.get("cust_etc")==null?"":(String) param.get("cust_etc");
+		//String cust_etc = param.get("cust_etc")==null?"":(String) param.get("cust_etc");
 		if("".equals(cust_name) || "".equals(cust_phone1) || "".equals(cust_sex)) {
 			throw new RuntimeException("파라미터 null 오류."); 
 		}
@@ -103,10 +104,10 @@ public class CustomerController {
 		String cust_no = param.get("cust_no")==null?"":(String) param.get("cust_no");
 		String cust_name = param.get("cust_name")==null?"":(String) param.get("cust_name");
 		String cust_phone1 = param.get("cust_phone1")==null?"":(String) param.get("cust_phone1");
-		String cust_phone2 = param.get("cust_phone2")==null?"":(String) param.get("cust_phone2");
-		String cust_phone3 = param.get("cust_phone3")==null?"":(String) param.get("cust_phone3");
+		//String cust_phone2 = param.get("cust_phone2")==null?"":(String) param.get("cust_phone2");
+		//String cust_phone3 = param.get("cust_phone3")==null?"":(String) param.get("cust_phone3");
 		String cust_sex = param.get("cust_sex")==null?"":(String) param.get("cust_sex");
-		String cust_etc = param.get("cust_etc")==null?"":(String) param.get("cust_etc");
+		//String cust_etc = param.get("cust_etc")==null?"":(String) param.get("cust_etc");
 
 		if("".equals(cust_ymd) || "".equals(cust_no) || "".equals(cust_name) || "".equals(cust_phone1) || "".equals(cust_sex)) {
 			throw new RuntimeException("파라미터 null 오류."); 

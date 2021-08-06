@@ -113,19 +113,13 @@ public class HomeController {
 	}
 	
 	// 로그아웃
-	@ResponseBody
-	@RequestMapping(value="/logout.api", method=RequestMethod.POST)
-	public HashMap<String, Object> MemberLogout(HttpServletRequest request) throws Exception{
+	@RequestMapping(value="/logout.api")
+	public String logout(HttpServletRequest request) throws Exception{
 		
 		HttpSession session = request.getSession();
 		session.invalidate();
 
-		HashMap<String, Object> view = new HashMap<>();
-		view.put("resultStatus", "succes");
-		view.put("resultCode","000");
-		view.put("resultMsg","");
-		
-		return view;
+		return "home.home";
 	}
 	
 	 

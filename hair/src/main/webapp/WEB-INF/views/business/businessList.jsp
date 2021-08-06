@@ -17,8 +17,7 @@ $(function(){
 	});
 	
 	var inParam = {};
-	var outParam = {};
-	gl_ajax("./businessList.api", inParam, function(outParam) {businessListCallBack(outParam);} );
+	gl_ajax("./businessList.api", inParam, function(result) {businessListCallBack(result);} );
 	
 	// 사업장등록
 	$("#busiReg").on("click", function(){
@@ -40,8 +39,7 @@ $(function(){
 			"busi_name":$("#busi_name").val(),
 			"busi_phone1":$("#busi_phone1").val()
 		};
-		var outParam = {};
-		gl_ajax("./businessWrite.api", inParam, function(outParam) {businessWriteCallBack(outParam);} );
+		gl_ajax("./businessWrite.api", inParam, function(result) {businessWriteCallBack(result);} );
 		
 	});
 	
@@ -72,8 +70,7 @@ $(function(){
 				"staff_useyn":"N",
 				"staff_busi":selBusiNo
 			};
-		var outParam = {};
-		gl_ajax("../staff/staffWrite.api", inParam, function(outParam) {staffWriteCallBack(outParam);} );
+		gl_ajax("../staff/staffWrite.api", inParam, function(result) {staffWriteCallBack(result);} );
 		
 	});
 	
@@ -85,8 +82,7 @@ function staffRetrive(selBusiNo){
 	var inParam = {
 		"busi_no":selBusiNo
 	};
-	var outParam = {};
-	gl_ajax("../staff/staffList.api", inParam, function(outParam) {staffListCallBack(outParam);} );
+	gl_ajax("../staff/staffList.api", inParam, function(result) {staffListCallBack(result);} );
 		
 }
 

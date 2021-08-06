@@ -56,10 +56,12 @@
 			cust_no,
 			mem_id,
 			cust_name,
+			cust_id,
 			cust_sex,
 			cust_phone1,
 			cust_phone2,
 			cust_phone3,
+			cust_del_yn,
 			cust_etc,
 			cust_reg_date,
 			cust_upd_date
@@ -75,10 +77,19 @@
         	)
 	        ,#{mem_id}
 			, #{cust_name}
+			,concat(DATE_FORMAT(sysdate(), '%Y%m%d')
+			,(select 
+					a.cust_no
+	        	from(select 
+	        				IFNULL(MAX(cust_no) + 1, 1) cust_no
+	        			from hair_customer) a
+        	)
+	        ,#{mem_id})
 			, #{cust_sex}
 			, #{cust_phone1}
 			, #{cust_phone2}
 			, #{cust_phone3}
+			, 'N'
 			, #{cust_etc}
 			, now()
 			, now()
