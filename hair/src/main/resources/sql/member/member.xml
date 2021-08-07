@@ -8,20 +8,20 @@
 	<!-- 아이디 중복 검사 -->
 	<select id="checkId" parameterType="String" resultType="int">
 		SELECT COUNT(*) 
-		FROM hair_MEMBER 
+		FROM hair_member
 		WHERE MEM_ID = #{mem_id}
 	</select>
 	
 	<!-- 이메일 중복 검사 -->
 	<select id="checkEmail" parameterType="String" resultType="int">
 		SELECT COUNT(*) 
-		FROM hair_MEMBER 
+		FROM hair_member 
 		WHERE MEM_EMAIL = #{mem_email}
 	</select>
 	
 	<!-- 회원 가입 -->
 	<insert id="join" parameterType="java.util.HashMap">
-		INSERT INTO hair_MEMBER(
+		INSERT INTO hair_member(
 			mem_no,
 			MEM_ID, 
 			MEM_NAME, 
@@ -51,7 +51,7 @@
 	
 	<!-- 이메일 인증 -->
 	<update id="approvalMember" parameterType="java.util.HashMap">
-		UPDATE hair_MEMBER 
+		UPDATE hair_member 
 		SET MEM_email_APPROVAL_STATUS = 'T' 
 		WHERE MEM_EMAIL = #{mem_email} 
 		AND MEM_email_APPROVAL_KEY = #{mem_email_approval_key}
@@ -70,7 +70,7 @@
 				, mem_email_approval_key
 				, mem_reg_date
 				, mem_upd_date  
-		FROM hair_MEMBER 
+		FROM hair_member 
 		WHERE MEM_ID = #{mem_id}
 		AND MEM_PW = #{mem_pw}
 		AND MEM_email_APPROVAL_STATUS = 'T'
@@ -78,7 +78,7 @@
 	
 	<!-- 로그인 접속일자 수정 -->
 	<update id="updateLog" parameterType="String">
-		UPDATE hair_MEMBER 
+		UPDATE hair_member 
 		SET MEM_UPD_DATE = now() 
 		WHERE MEM_ID = #{mem_id}
 	</update>
@@ -122,6 +122,6 @@
 				, MEM_email_APPROVAL_KEY
 				, MEM_REG_DATE
 				, MEM_UPD_DATE  
-		FROM hair_MEMBER
+		FROM hair_member
 	</select>
 </mapper>
